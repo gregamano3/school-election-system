@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
+import { db, users } from "@/lib/db";
+import { eq } from "drizzle-orm";
 import ThemeToggle from "@/components/ThemeToggle";
 import { ToastContainer } from "@/components/Toast";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -14,7 +16,13 @@ export default async function AdminDashboardLayout({
   if ((session.user as { role?: string })?.role !== "admin") redirect("/election-code");
   const { logoUrl } = await getSiteSettings();
   const userId = session.user?.id ? parseInt(session.user.id, 10) : 0;
-  const passwordChanged = (session.user as { passwordChanged?: number })?.passwordChanged ?? 1;
+  
+  // Check passwordChanged directly from database, not from session
+  let passwordChanged = 1;
+  if (userId > 0) {
+    const [user] = await db.select({ passwordChanged: users.passwordChanged }).from(users).where(eq(users.id, userId)).limit(1);
+    passwordChanged = user?.passwordChanged ?? 1;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f6f7f8] dark:bg-[#101822]">

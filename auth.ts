@@ -40,12 +40,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
         token.studentId = (user as { studentId?: string }).studentId;
         token.passwordChanged = (user as { passwordChanged?: number }).passwordChanged ?? 0;
+      }
+      // Always refresh passwordChanged from DB to ensure it's up-to-date
+      if (token.id) {
+        try {
+          const [dbUser] = await db.select({ passwordChanged: users.passwordChanged }).from(users).where(eq(users.id, parseInt(token.id as string, 10))).limit(1);
+          if (dbUser) {
+            token.passwordChanged = dbUser.passwordChanged ?? 0;
+          }
+        } catch (err) {
+          console.error("[auth] jwt refresh error:", err);
+        }
       }
       return token;
     },

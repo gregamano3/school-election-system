@@ -9,10 +9,13 @@ export default function ElectionCodePage() {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [alreadyVoted, setAlreadyVoted] = useState(false);
+  const [electionName, setElectionName] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setAlreadyVoted(false);
     if (!code.trim()) {
       setError("Please enter an election code");
       return;
@@ -27,6 +30,17 @@ export default function ElectionCodePage() {
         return;
       }
       const election = data.data[0];
+      
+      // Check if user has already voted
+      const checkRes = await fetch(`/api/votes/check?electionId=${election.id}`);
+      const checkData = await checkRes.json();
+      if (checkRes.ok && checkData.data?.hasVoted) {
+        setAlreadyVoted(true);
+        setElectionName(election.name);
+        setLoading(false);
+        return;
+      }
+      
       router.push(`/vote?electionId=${election.id}`);
     } catch {
       setError("Something went wrong");
@@ -62,9 +76,24 @@ export default function ElectionCodePage() {
           {error && (
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
           )}
+          {alreadyVoted && (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/30">
+              <div className="flex items-start gap-3">
+                <span className="material-symbols-outlined text-amber-600 dark:text-amber-400">info</span>
+                <div className="flex-1">
+                  <p className="font-semibold text-amber-800 dark:text-amber-200">
+                    You have already voted
+                  </p>
+                  <p className="mt-1 text-sm text-amber-700 dark:text-amber-300">
+                    You have already submitted your vote for <strong>{electionName}</strong>. Each voter can only vote once per election.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || alreadyVoted}
             className="mt-2 flex w-full items-center justify-center rounded-lg bg-[#136dec] px-4 py-3.5 text-base font-bold text-white transition-colors hover:bg-[#136dec]/90 focus:outline-none focus:ring-2 focus:ring-[#136dec] focus:ring-offset-2 disabled:opacity-50"
           >
             {loading ? "Loading…" : "Continue"}

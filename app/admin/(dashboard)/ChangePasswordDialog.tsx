@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { showToast } from "@/components/Toast";
 
 export default function ChangePasswordDialog({ userId }: { userId: number }) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -46,8 +44,11 @@ export default function ChangePasswordDialog({ userId }: { userId: number }) {
         return;
       }
       setOpen(false);
-      router.refresh();
       showToast("Password changed successfully", "success");
+      // Reload to refresh the layout which checks DB directly
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch {
       setError("Something went wrong");
       setLoading(false);
