@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { hash } from "bcryptjs";
 import { voterBodySchema } from "@/lib/validations";
 import { logAudit } from "@/lib/db/audit";
+import { sanitizeError } from "@/lib/error-utils";
 
 export async function GET() {
   try {
@@ -22,8 +23,8 @@ export async function GET() {
     }).from(users).orderBy(users.id);
     return NextResponse.json({ data: list });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to fetch voters" }, { status: 500 });
+    const { message } = sanitizeError(e, "fetch-voters");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
     }
     const existing = await db.select().from(users).where(eq(users.studentId, parsed.data.studentId)).limit(1);
     if (existing.length > 0) {
-      return NextResponse.json({ error: "Student ID already exists" }, { status: 409 });
+      return NextResponse.json({ error: "A voter with this ID already exists" }, { status: 409 });
     }
     const passwordHash = await hash(parsed.data.password, 10);
     const [inserted] = await db
@@ -62,7 +63,7 @@ export async function POST(req: Request) {
     const { passwordHash: _, ...safe } = inserted!;
     return NextResponse.json({ data: safe });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to create voter" }, { status: 500 });
+    const { message } = sanitizeError(e, "create-voter");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

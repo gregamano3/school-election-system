@@ -5,6 +5,7 @@ import { groups } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { groupBodySchema } from "@/lib/validations";
 import { logAudit } from "@/lib/db/audit";
+import { sanitizeError } from "@/lib/error-utils";
 
 export async function GET() {
   try {
@@ -15,8 +16,8 @@ export async function GET() {
     const list = await db.select().from(groups).orderBy(groups.name);
     return NextResponse.json({ data: list });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to fetch groups" }, { status: 500 });
+    const { message } = sanitizeError(e, "fetch-groups");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({ data: inserted });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to create group" }, { status: 500 });
+    const { message } = sanitizeError(e, "create-group");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

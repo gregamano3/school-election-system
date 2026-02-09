@@ -24,6 +24,8 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
   const [startNumber, setStartNumber] = useState<number>(2000);
   const [endNumber, setEndNumber] = useState<number>(5000);
   const [bulkGroupId, setBulkGroupId] = useState<number>(0);
+  const [resettingPassword, setResettingPassword] = useState<number | null>(null);
+  const [resetPasswordResult, setResetPasswordResult] = useState<{ voterId: number; password: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { confirm: confirmAction, Dialog: ConfirmDialog } = useConfirmDialog();
 
@@ -60,8 +62,10 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
       showToast("Voter added", "success");
     } catch {
       setError("Failed");
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   function handleDownloadTemplate() {
@@ -162,6 +166,30 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
           } else {
             showToast("Failed to delete voter", "error");
           }
+        });
+    });
+  }
+
+  function handleResetPassword(id: number) {
+    confirmAction("Reset password for this voter? A new random 8-character password will be generated.", () => {
+      setResettingPassword(id);
+      fetch(`/api/admin/voters/${id}/reset-password`, {
+        method: "POST",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.error) {
+            setResetPasswordResult({ voterId: id, password: data.data.newPassword });
+            showToast("Password reset successfully", "success");
+          } else {
+            showToast(data.error ?? "Failed to reset password", "error");
+          }
+        })
+        .catch(() => {
+          showToast("Failed to reset password", "error");
+        })
+        .finally(() => {
+          setResettingPassword(null);
         });
     });
   }
@@ -311,14 +339,14 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
         {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
       </form>
       <div className="overflow-x-auto rounded-xl border border-[#dbe0e6] bg-white dark:border-[#2d394a] dark:bg-[#1a2433]">
-        <table className="w-full text-left text-sm">
+        <table className="w-full text-left text-sm" aria-label="Voters list">
           <thead>
             <tr className="border-b border-[#dbe0e6] dark:border-[#2d394a]">
-              <th className="p-4 font-bold text-[#111418] dark:text-white">ID</th>
-              <th className="p-4 font-bold text-[#111418] dark:text-white">Student ID</th>
-              <th className="p-4 font-bold text-[#111418] dark:text-white">Name</th>
-              <th className="p-4 font-bold text-[#111418] dark:text-white">Role</th>
-              <th className="p-4 font-bold text-[#111418] dark:text-white">Actions</th>
+              <th scope="col" className="p-4 font-bold text-[#111418] dark:text-white">ID</th>
+              <th scope="col" className="p-4 font-bold text-[#111418] dark:text-white">Student ID</th>
+              <th scope="col" className="p-4 font-bold text-[#111418] dark:text-white">Name</th>
+              <th scope="col" className="p-4 font-bold text-[#111418] dark:text-white">Role</th>
+              <th scope="col" className="p-4 font-bold text-[#111418] dark:text-white">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -328,18 +356,38 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
                 <td className="p-4 text-[#111418] dark:text-white">{v.studentId}</td>
                 <td className="p-4 text-[#111418] dark:text-white">{v.name ?? "—"}</td>
                 <td className="p-4">
-                  <span className={`rounded px-2 py-0.5 text-xs font-bold ${v.role === "admin" ? "bg-[#136dec]/20 text-[#136dec]" : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"}`}>
+                  <span className={`rounded px-2 py-0.5 text-xs font-bold ${v.role === "admin" ? "bg-[#136dec]/20 text-[#136dec]" : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"}`} aria-label={`Role: ${v.role}`}>
                     {v.role}
                   </span>
                 </td>
                 <td className="p-4">
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(v.id)}
-                    className="text-red-500 hover:underline"
-                  >
-                    Delete
-                  </button>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleResetPassword(v.id)}
+                      disabled={resettingPassword === v.id}
+                      className="text-[#136dec] hover:underline disabled:opacity-50"
+                      aria-label={`Reset password for ${v.studentId}`}
+                      aria-busy={resettingPassword === v.id}
+                    >
+                      {resettingPassword === v.id ? "Resetting…" : "Reset Password"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(v.id)}
+                      className="text-red-500 hover:underline"
+                      aria-label={`Delete voter ${v.studentId}`}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  {resetPasswordResult?.voterId === v.id && (
+                    <div className="mt-2 rounded-lg bg-green-50 p-2 text-xs dark:bg-green-900/20" role="alert" aria-live="polite">
+                      <p className="font-semibold text-green-800 dark:text-green-200">New Password:</p>
+                      <p className="font-mono text-green-900 dark:text-green-100" aria-label={`New password: ${resetPasswordResult.password}`}>{resetPasswordResult.password}</p>
+                      <p className="mt-1 text-green-700 dark:text-green-300">Share this password with the voter.</p>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

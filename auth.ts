@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { db, users } from "@/lib/db";
+import { logger } from "@/lib/logger";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -33,7 +34,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             passwordChanged: user.passwordChanged ?? 0,
           };
         } catch (err) {
-          console.error("[auth] authorize error:", err);
+          logger.error("Authorization failed", "auth", err instanceof Error ? err : undefined, {
+            studentId: credentials?.studentId ? String(credentials.studentId).substring(0, 3) + "***" : undefined,
+          });
           return null;
         }
       },

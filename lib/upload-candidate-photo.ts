@@ -2,6 +2,7 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
 import sharp from "sharp";
+import { logger } from "./logger";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "candidates");
 const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
@@ -44,7 +45,7 @@ export async function processCandidatePhoto(
   try {
     await mkdir(UPLOAD_DIR, { recursive: true });
   } catch (e) {
-    console.error("Failed to create upload dir:", e);
+    logger.error("Failed to create upload directory", "upload", e instanceof Error ? e : undefined);
     return { error: "Failed to save image." };
   }
 
@@ -56,8 +57,9 @@ export async function processCandidatePhoto(
       .resize(800, 800, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: 85 })
       .toFile(filepath);
+    logger.debug("Image processed successfully", "upload", { filename });
   } catch (e) {
-    console.error("Sharp conversion error:", e);
+    logger.error("Image processing failed", "upload", e instanceof Error ? e : undefined);
     return { error: "Failed to process image." };
   }
 

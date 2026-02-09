@@ -5,6 +5,8 @@ import { positions } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { positionBodySchema } from "@/lib/validations";
 import { logAudit } from "@/lib/db/audit";
+import { sanitizeText, sanitizeMultilineText } from "@/lib/sanitize";
+import { sanitizeError } from "@/lib/error-utils";
 
 export async function GET(req: Request) {
   try {
@@ -24,8 +26,8 @@ export async function GET(req: Request) {
       .orderBy(positions.orderIndex, positions.id);
     return NextResponse.json({ data: list });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to fetch positions" }, { status: 500 });
+    const { message } = sanitizeError(e, "fetch-positions");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -44,8 +46,8 @@ export async function POST(req: Request) {
       .insert(positions)
       .values({
         electionId: parsed.data.electionId,
-        name: parsed.data.name,
-        description: parsed.data.description ?? null,
+        name: sanitizeText(parsed.data.name),
+        description: parsed.data.description ? sanitizeMultilineText(parsed.data.description) : null,
         seatsCount: parsed.data.seatsCount,
         gradeEligibility: parsed.data.gradeEligibility ?? [],
         orderIndex: parsed.data.orderIndex,
@@ -60,7 +62,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({ data: inserted });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to create position" }, { status: 500 });
+    const { message } = sanitizeError(e, "create-position");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

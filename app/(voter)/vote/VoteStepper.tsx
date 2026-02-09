@@ -304,7 +304,7 @@ export default function VoteStepper({
       {loading ? (
         <p className="text-[#617289] dark:text-gray-400">Loading candidates…</p>
       ) : (
-        <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label={`Select candidate for ${position.name}`}>
           {candidates.map((c) => (
             <button
               key={c.id}
@@ -315,11 +315,14 @@ export default function VoteStepper({
                   ? "border-[#136dec] bg-[#136dec]/5 shadow-lg ring-2 ring-[#136dec]/20 dark:bg-[#136dec]/10"
                   : "border-slate-200 bg-white hover:border-[#136dec]/50 dark:border-slate-800 dark:bg-slate-900"
               }`}
+              role="radio"
+              aria-checked={selected === c.id}
+              aria-label={`Select ${c.name}${c.grade ? ` (${c.grade})` : ""}${c.party ? ` from ${c.party.name}` : ""}`}
             >
               {c.imageUrl ? (
-                <CandidateImage src={c.imageUrl} alt={c.name} size="lg" className="mb-3 border-2" />
+                <CandidateImage src={c.imageUrl} alt={`${c.name} photo`} size="lg" className="mb-3 border-2" />
               ) : (
-                <div className="mb-3 flex h-24 w-24 items-center justify-center rounded-full bg-[#e8ecf1] dark:bg-[#2d394a]">
+                <div className="mb-3 flex h-24 w-24 items-center justify-center rounded-full bg-[#e8ecf1] dark:bg-[#2d394a]" aria-hidden="true">
                   <span className="material-symbols-outlined text-4xl text-[#617289] dark:text-[#a1b0c3]">person</span>
                 </div>
               )}
@@ -334,6 +337,7 @@ export default function VoteStepper({
                     backgroundColor: c.party.color ? `${c.party.color}20` : "#e5e7eb",
                     color: c.party.color ?? "#617289",
                   }}
+                  aria-label={`Party: ${c.party.name}`}
                 >
                   {c.party.name}
                 </span>
@@ -343,7 +347,7 @@ export default function VoteStepper({
                   {c.bio}
                 </p>
               )}
-              <span className="material-symbols-outlined mt-2 text-[#136dec]">
+              <span className="material-symbols-outlined mt-2 text-[#136dec]" aria-hidden="true">
                 {selected === c.id ? "radio_button_checked" : "circle"}
               </span>
             </button>
@@ -351,7 +355,11 @@ export default function VoteStepper({
         </div>
       )}
 
-      {error && <p className="mb-4 text-sm text-red-600 dark:text-red-400">{error}</p>}
+      {error && (
+        <p className="mb-4 text-sm text-red-600 dark:text-red-400" role="alert" aria-live="polite">
+          {error}
+        </p>
+      )}
 
       <footer className="flex items-center justify-between border-t border-slate-200 bg-white py-6 dark:border-slate-800 dark:bg-[#101822]">
         <button
@@ -359,8 +367,9 @@ export default function VoteStepper({
           onClick={handlePrev}
           disabled={step === 0}
           className="flex items-center gap-2 rounded-lg border border-slate-200 px-6 py-3 font-semibold hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:hover:bg-slate-800"
+          aria-label="Go to previous position"
         >
-          <span className="material-symbols-outlined">arrow_back</span>
+          <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
           Previous
         </button>
         <button
@@ -368,9 +377,11 @@ export default function VoteStepper({
           onClick={handleNext}
           disabled={selected === null || submitting}
           className="flex items-center gap-2 rounded-lg bg-[#136dec] px-10 py-3 font-bold text-white shadow-lg hover:bg-[#136dec]/90 disabled:opacity-50"
+          aria-label={step < positions.length - 1 ? "Continue to next position" : "Review all votes"}
+          aria-busy={submitting}
         >
           {step < positions.length - 1 ? "Next" : "Review Votes"}
-          <span className="material-symbols-outlined">arrow_forward</span>
+          <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
         </button>
       </footer>
     </>

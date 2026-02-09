@@ -4,12 +4,24 @@ import { db } from "@/lib/db";
 import { votes, elections, candidates, positions, electionAllowedGroups, userGroups } from "@/lib/db";
 import { eq, and, inArray } from "drizzle-orm";
 import { voteBodySchema } from "@/lib/validations";
+import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
+import { sanitizeError } from "@/lib/error-utils";
 
 export async function POST(req: Request) {
   try {
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate limiting
+    const identifier = session.user.id || getClientIdentifier(req);
+    const rateLimit = checkRateLimit(identifier, "vote");
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429, headers: { "Retry-After": String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)) } }
+      );
     }
     const body = await req.json();
     const parsed = voteBodySchema.safeParse(body);
@@ -68,7 +80,7 @@ export async function POST(req: Request) {
       .returning();
     return NextResponse.json({ data: inserted });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to submit vote" }, { status: 500 });
+    const { message } = sanitizeError(e, "vote-submit");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

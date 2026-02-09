@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getFaviconBuffer } from "@/lib/site-favicon";
+import { logger } from "@/lib/logger";
 
 export async function GET() {
   try {
@@ -11,7 +12,7 @@ export async function GET() {
       },
     });
   } catch (e) {
-    console.error(e);
+    logger.error("Favicon serve error", "favicon", e instanceof Error ? e : undefined);
     return new NextResponse(null, { status: 500 });
   }
 }

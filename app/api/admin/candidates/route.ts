@@ -5,6 +5,8 @@ import { candidates, parties } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { candidateBodySchema } from "@/lib/validations";
 import { logAudit } from "@/lib/db/audit";
+import { sanitizeText, sanitizeMultilineText } from "@/lib/sanitize";
+import { sanitizeError } from "@/lib/error-utils";
 
 export async function GET(req: Request) {
   try {
@@ -42,8 +44,8 @@ export async function GET(req: Request) {
     }));
     return NextResponse.json({ data });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to fetch candidates" }, { status: 500 });
+    const { message } = sanitizeError(e, "fetch-candidates");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -63,9 +65,9 @@ export async function POST(req: Request) {
       .values({
         positionId: parsed.data.positionId,
         partyId: parsed.data.partyId ?? null,
-        name: parsed.data.name,
-        grade: parsed.data.grade ?? null,
-        bio: parsed.data.bio ?? null,
+        name: sanitizeText(parsed.data.name),
+        grade: parsed.data.grade ? sanitizeText(parsed.data.grade) : null,
+        bio: parsed.data.bio ? sanitizeMultilineText(parsed.data.bio) : null,
         imageUrl: parsed.data.imageUrl && parsed.data.imageUrl !== "" ? parsed.data.imageUrl : null,
       })
       .returning();
@@ -78,7 +80,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({ data: inserted });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to create candidate" }, { status: 500 });
+    const { message } = sanitizeError(e, "create-candidate");
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

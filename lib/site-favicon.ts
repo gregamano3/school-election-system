@@ -1,6 +1,7 @@
 import path from "path";
 import sharp from "sharp";
 import { getSiteSettings } from "./site-settings";
+import { logger } from "./logger";
 
 const FAVICON_SIZE = 32;
 
@@ -20,7 +21,7 @@ export async function getFaviconBuffer(): Promise<{ buffer: Buffer; contentType:
         .toBuffer();
       return { buffer, contentType: "image/png" };
     } catch (e) {
-      console.error("Favicon: failed to read site logo:", e);
+      logger.debug("Favicon: failed to read site logo, using default", "favicon", { error: e instanceof Error ? e.message : String(e) });
     }
   }
 

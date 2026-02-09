@@ -57,12 +57,13 @@ export default function ElectionCodePage() {
         <p className="mb-6 text-sm text-[#617289] dark:text-gray-400">
           Enter the election code provided by your school to view candidates and vote.
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4" aria-label="Election code form">
           <div>
-            <label className="mb-2 block text-sm font-semibold text-[#111418] dark:text-gray-200">
+            <label htmlFor="election-code" className="mb-2 block text-sm font-semibold text-[#111418] dark:text-gray-200">
               Election Code
             </label>
             <input
+              id="election-code"
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value.toUpperCase())}
@@ -71,10 +72,15 @@ export default function ElectionCodePage() {
               required
               autoFocus
               maxLength={8}
+              aria-required="true"
+              aria-invalid={error ? "true" : "false"}
+              aria-describedby={error ? "election-code-error" : undefined}
             />
           </div>
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <p id="election-code-error" className="text-sm text-red-600 dark:text-red-400" role="alert" aria-live="polite">
+              {error}
+            </p>
           )}
           {alreadyVoted && (
             <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/30">
@@ -95,6 +101,7 @@ export default function ElectionCodePage() {
             type="submit"
             disabled={loading || alreadyVoted}
             className="mt-2 flex w-full items-center justify-center rounded-lg bg-[#136dec] px-4 py-3.5 text-base font-bold text-white transition-colors hover:bg-[#136dec]/90 focus:outline-none focus:ring-2 focus:ring-[#136dec] focus:ring-offset-2 disabled:opacity-50"
+            aria-busy={loading}
           >
             {loading ? "Loading…" : "Continue"}
           </button>

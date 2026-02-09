@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/theme";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,10 +15,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   title: "School Election System",
   description: "Student Government Elections",
   icons: { icon: "/api/favicon" },
+  openGraph: {
+    title: "School Election System",
+    description: "Student Government Elections",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "School Election System",
+    description: "Student Government Elections",
+  },
 };
 
 export default function RootLayout({
@@ -27,11 +45,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var t=document.documentElement,e=localStorage.getItem("school-election-theme");if(e==="dark")t.classList.add("dark");else t.classList.remove("dark");})();`,
-          }}
-        />
         <link
           href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
@@ -42,7 +55,13 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Script
+          src="/scripts/theme-init.js"
+          strategy="beforeInteractive"
+        />
+        <ErrorBoundary>
+          <ThemeProvider>{children}</ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
