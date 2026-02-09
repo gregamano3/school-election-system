@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Election Results | Student Govt</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .live-pulse {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex-shrink-0 bg-white dark:bg-[#1a2432] border-r border-[#dbe0e6] dark:border-gray-700 flex flex-col justify-between">
+<div class="p-6">
+<div class="flex items-center gap-2 mb-8">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">how_to_vote</span>
+</div>
+<div>
+<h1 class="text-[#111418] dark:text-white text-lg font-bold leading-tight">Student Govt</h1>
+<p class="text-[#617289] dark:text-gray-400 text-xs font-normal">2024 General Election</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#617289] dark:text-gray-300 hover:bg-[#f0f2f4] dark:hover:bg-gray-800 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm">Candidates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#617289] dark:text-gray-300 hover:bg-[#f0f2f4] dark:hover:bg-gray-800 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="text-sm">Voter Stats</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#617289] dark:text-gray-300 hover:bg-[#f0f2f4] dark:hover:bg-gray-800 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<div class="p-6 border-t border-[#dbe0e6] dark:border-gray-700">
+<div class="flex items-center gap-3 px-3 py-2 text-[#617289] dark:text-gray-300 cursor-pointer hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-8">
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-red-500 live-pulse"></span>
+<span class="text-red-500 text-xs font-bold uppercase tracking-wider">Live Results</span>
+</div>
+<h2 class="text-2xl font-bold tracking-tight">Election Central Dashboard</h2>
+</div>
+<div class="flex gap-4 items-center">
+<div class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#1a2432] rounded-lg border border-[#dbe0e6] dark:border-gray-700 shadow-sm">
+<span class="material-symbols-outlined text-gray-400" data-icon="schedule">schedule</span>
+<span class="text-sm font-medium text-gray-500 dark:text-gray-400">Last updated: Just now</span>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-blue-700 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                    Refresh Data
+                </button>
+</div>
+</header>
+<!-- Stats Overview Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-white dark:bg-[#1a2432] p-6 rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm">
+<p class="text-[#617289] dark:text-gray-400 text-sm font-medium mb-1">Total Votes Cast</p>
+<div class="flex items-end gap-2">
+<p class="text-3xl font-bold leading-none">2,845</p>
+<p class="text-green-600 text-sm font-bold flex items-center mb-0.5">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                        8%
+                    </p>
+</div>
+<p class="text-xs text-gray-400 mt-2">from 4,500 eligible voters</p>
+</div>
+<div class="bg-white dark:bg-[#1a2432] p-6 rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm">
+<p class="text-[#617289] dark:text-gray-400 text-sm font-medium mb-1">Turnout Rate</p>
+<div class="flex items-end gap-2">
+<p class="text-3xl font-bold leading-none">63.2%</p>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5 mt-3">
+<div class="bg-primary h-1.5 rounded-full" style="width: 63.2%"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#1a2432] p-6 rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm col-span-1 md:col-span-2">
+<p class="text-[#617289] dark:text-gray-400 text-sm font-medium mb-2">Polls Close In</p>
+<div class="flex gap-4">
+<div class="flex flex-col items-center flex-1 py-1 bg-[#f0f2f4] dark:bg-gray-800 rounded-lg">
+<p class="text-xl font-bold text-primary">05</p>
+<p class="text-[10px] uppercase font-bold text-gray-400">Hours</p>
+</div>
+<div class="flex flex-col items-center flex-1 py-1 bg-[#f0f2f4] dark:bg-gray-800 rounded-lg">
+<p class="text-xl font-bold text-primary">42</p>
+<p class="text-[10px] uppercase font-bold text-gray-400">Minutes</p>
+</div>
+<div class="flex flex-col items-center flex-1 py-1 bg-[#f0f2f4] dark:bg-gray-800 rounded-lg">
+<p class="text-xl font-bold text-primary">18</p>
+<p class="text-[10px] uppercase font-bold text-gray-400">Seconds</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Election Races Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Presidential Race Card -->
+<div class="bg-white dark:bg-[#1a2432] rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-[#dbe0e6] dark:border-gray-700 flex justify-between items-center">
+<h3 class="font-bold text-lg">Presidential Race</h3>
+<span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold rounded uppercase">Leading: Jordan S.</span>
+</div>
+<div class="p-6 space-y-6">
+<!-- Candidate Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center border-2 border-primary" data-alt="Candidate profile portrait of Jordan Smith" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAyOl36sIXBChRGmDYb7pYhxLnRZ-P94sF5ESOYSLJe2HoSbSkWJzq59JAwoFrG-Ob5N0FSXBN81upLJfu-jM8nepM4Q8yzInZUXPjYe4zUx9LWEVopZkQtNBRWkvHUUMgYikcYQB52LpFoh-wdy5UQFOp4egQmCOMx_xTTDNB_fKs8X1wx0sdbzDQLNlZ4q8i-TsRqxe8JxF-3krAGP8cZs16IsRSgctmfSAdtGsJdYlRBLHtsKOujdlUwX4ly29JFcGQ33MjLJMbd')"></div>
+<div>
+<p class="font-bold text-sm">Jordan Smith</p>
+<p class="text-xs text-gray-500">Junior Class</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-sm">1,245 votes</p>
+<p class="text-xs font-bold text-primary">43.8%</p>
+</div>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 43.8%"></div>
+</div>
+</div>
+<!-- Candidate Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Candidate profile portrait of Alex Rivera" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMsnGbU2bv5drr4ivPoLfV5pzvKPCfhAwqFZ0AhHYI9WXH27hoGZ2Vrw5kuetImUIFt9-VI0c5mkU1urfA1XZZ_yyH194C1qrGk4mr9guTtVw8WCpn3onm2m8iX8rhOPHjuweoZBS8p4B3RKchNtaQguK2wfKLFI-hhAdr98lC7XHFdgCgjMrSkD04BYC9L584UDnoQhH78RwPXGkXzPUZuh2vx4FbYFCEaszJE9hTEVyX-uRXt_DmrrzizxqibIk1mL7VVHQaEtRb')"></div>
+<div>
+<p class="font-bold text-sm">Alex Rivera</p>
+<p class="text-xs text-gray-500">Senior Class</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-sm">1,102 votes</p>
+<p class="text-xs font-bold text-gray-500">38.7%</p>
+</div>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2.5">
+<div class="bg-gray-300 dark:bg-gray-600 h-2.5 rounded-full" style="width: 38.7%"></div>
+</div>
+</div>
+<!-- Candidate Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Candidate profile portrait of Casey Wong" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD8sAM2-zZm0H3rXe8IWJFeqbBhRpCNPO7rtGmNKamLaJuHfKuCfPFwMsC0WoGPi2TYddd5k-r-L9IsDmJqJyNqp3jH5hUdPbQSAcjXzs0OlhrbFuRYy-zUhTO1etm1Q1JI-4cy90PvkAxG7b3GyFnW2gsq06NHsUxtQU5Ao3bF57f-ocDxQmOXT3f4Z7AoOVNaeq19keodGlqv-W6O_apZqJH5wSXS7iyopE1PY5ZyrfhZKq8x3RQUMraRGC74xKUlqGUC4Ai5fUb5')"></div>
+<div>
+<p class="font-bold text-sm">Casey Wong</p>
+<p class="text-xs text-gray-500">Sophomore Class</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-sm">498 votes</p>
+<p class="text-xs font-bold text-gray-500">17.5%</p>
+</div>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2.5">
+<div class="bg-gray-300 dark:bg-gray-600 h-2.5 rounded-full" style="width: 17.5%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Vice President Race Card -->
+<div class="bg-white dark:bg-[#1a2432] rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-[#dbe0e6] dark:border-gray-700 flex justify-between items-center">
+<h3 class="font-bold text-lg">Vice Presidential Race</h3>
+<span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold rounded uppercase">Leading: Taylor M.</span>
+</div>
+<div class="p-6 space-y-6">
+<!-- Candidate Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center border-2 border-primary" data-alt="Candidate profile portrait of Taylor Morgan" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDzGTEdUx8wBcUgo-FTYB6fL-2Ezy4ifp5z8w6tMM5SYJ-1r2ZGx5LjDO9K0ZwqeoV8JHRw5jxaj-WgiE1Ii37h1-zJk0ISyNG2FDLC4Chs--c4fvbE2BCM7UlDaQvSsnFnJltHvpKsp6ImwmhOqEtZBfmYYD4pz_ENYbsV-aej1Y0VtlkZGILQbmOugWvqxVJFBODdCrzPQ9ORjMKMQR8iJmIY6T3Ye-ZZQMHfKWTrhGeIiI8XXiUN55VbSoTTN4oqCoRJDrQUPlV3')"></div>
+<div>
+<p class="font-bold text-sm">Taylor Morgan</p>
+<p class="text-xs text-gray-500">Junior Class</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-sm">1,502 votes</p>
+<p class="text-xs font-bold text-primary">52.8%</p>
+</div>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 52.8%"></div>
+</div>
+</div>
+<!-- Candidate Row -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Candidate profile portrait of Riley Davis" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC0dpNJYhpBd6jNfxI3akji-9W1bx_mfXnXw5rX81axKN2ZYVFrTih-rViYME0cmrM_G83kjhqq0ybjhXKI6QGjyMsFWKM3x9xbpBfOaUEIYrgqYfhiLNJfqJwFD0LCaAgNowLbihSapeB3JDLofVUK5IarRmrl6xAnSYrVKDxz4GHThL4HlN8IqQR2T-NboDm7dFBFAq32-um4cnX16R3olZI8OwhJ5OsndRsQbEQGAtsGC3iOgstHxgouai-NboV6QZLnOUk5nc2d')"></div>
+<div>
+<p class="font-bold text-sm">Riley Davis</p>
+<p class="text-xs text-gray-500">Junior Class</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-sm">1,343 votes</p>
+<p class="text-xs font-bold text-gray-500">47.2%</p>
+</div>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2.5">
+<div class="bg-gray-300 dark:bg-gray-600 h-2.5 rounded-full" style="width: 47.2%"></div>
+</div>
+</div>
+</div>
+<!-- Mini Footer for Card -->
+<div class="px-6 py-4 bg-gray-50 dark:bg-[#212c3b] border-t border-[#dbe0e6] dark:border-gray-700">
+<div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+<span>Confidence level: High</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="info">info</span>
+<span>Margin of error: +/- 1.2%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Treasurer Race Card -->
+<div class="bg-white dark:bg-[#1a2432] rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-[#dbe0e6] dark:border-gray-700">
+<h3 class="font-bold text-lg">Treasurer</h3>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex items-center justify-between text-sm">
+<span class="font-medium">Morgan Chen</span>
+<div class="flex items-center gap-3 w-2/3">
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 78%"></div>
+</div>
+<span class="font-bold min-w-[3rem] text-right">78%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="font-medium text-gray-500">Sam Patel</span>
+<div class="flex items-center gap-3 w-2/3">
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+<div class="bg-gray-300 dark:bg-gray-600 h-2 rounded-full" style="width: 22%"></div>
+</div>
+<span class="font-bold text-gray-500 min-w-[3rem] text-right">22%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Secretary Race Card -->
+<div class="bg-white dark:bg-[#1a2432] rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-[#dbe0e6] dark:border-gray-700">
+<h3 class="font-bold text-lg">Secretary</h3>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex items-center justify-between text-sm">
+<span class="font-medium">Jamie Vance</span>
+<div class="flex items-center gap-3 w-2/3">
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 51%"></div>
+</div>
+<span class="font-bold min-w-[3rem] text-right">51%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="font-medium text-gray-500">Dana Lee</span>
+<div class="flex items-center gap-3 w-2/3">
+<div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
+<div class="bg-gray-300 dark:bg-gray-600 h-2 rounded-full" style="width: 49%"></div>
+</div>
+<span class="font-bold text-gray-500 min-w-[3rem] text-right">49%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Latest Activity Feed (Bottom Section) -->
+<div class="mt-8 bg-white dark:bg-[#1a2432] rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-[#dbe0e6] dark:border-gray-700">
+<h3 class="font-bold text-lg">Real-time Activity</h3>
+</div>
+<div class="divide-y divide-[#dbe0e6] dark:divide-gray-700">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+</div>
+<p class="text-sm font-medium">12 new ballots verified and counted in East Wing Precinct</p>
+</div>
+<span class="text-xs text-gray-400 font-medium">2 mins ago</span>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+</div>
+<p class="text-sm font-medium">Jordan Smith gained +24 votes in latest update</p>
+</div>
+<span class="text-xs text-gray-400 font-medium">5 mins ago</span>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined text-sm" data-icon="flag">flag</span>
+</div>
+<p class="text-sm font-medium">Voter turnout reached the 60% milestone!</p>
+</div>
+<span class="text-xs text-gray-400 font-medium">14 mins ago</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

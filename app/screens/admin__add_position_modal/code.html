@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Add Position Modal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white">
+<!-- Mock Background: Election Admin Portal Dashboard -->
+<div class="relative flex min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#dbe0e6] dark:border-[#343d48] px-10 py-3 bg-white dark:bg-[#1a232e]">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined text-3xl">how_to_reg</span>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Election Admin Portal</h2>
+</div>
+<nav class="flex items-center gap-9">
+<a class="text-[#111418] dark:text-gray-300 text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Elections</a>
+<a class="text-[#111418] dark:text-gray-300 text-sm font-medium leading-normal" href="#">Candidates</a>
+<a class="text-[#111418] dark:text-gray-300 text-sm font-medium leading-normal" href="#">Results</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-[#dbe0e6]" data-alt="Administrator profile picture avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAFWhrhQAqPNGoLeXl3QQoEBgRbp0HkajAgqPxqC1J-hpW5Ru-BI_-_Tl85KEPPmCLbfJeOr_P6YLDawFCEcVpAd3NlLr-xEpFfcMJsVf2swXg2lMVt6HM92l9oKEia3Y-rv_ebvDlhszb_f0soQdobGeGExlq0L1S1Mw_Zfdl5GmcVPkjL8nmg-pecl9PVRJGIslhAmMNLQ9-Lb1b9N8jW75Ye52ul9iWwTSTqjrzX16KlLj_JcKsyajlN23Gl04kUMv9DS2YpFep8");'></div>
+</div>
+</header>
+<main class="px-40 py-10 opacity-50 pointer-events-none">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<h1 class="text-4xl font-black">2024 Fall Student Council</h1>
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-bold">Add Position</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-[#1a232e] p-6 rounded-xl border border-[#dbe0e6] dark:border-[#343d48] shadow-sm">
+<h3 class="text-xl font-bold mb-2">President</h3>
+<p class="text-gray-500 text-sm mb-4">1 Seat available</p>
+<div class="flex gap-2">
+<span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-bold">4 Candidates</span>
+</div>
+</div>
+<div class="bg-white dark:bg-[#1a232e] p-6 rounded-xl border border-[#dbe0e6] dark:border-[#343d48] shadow-sm">
+<h3 class="text-xl font-bold mb-2">Vice President</h3>
+<p class="text-gray-500 text-sm mb-4">1 Seat available</p>
+<div class="flex gap-2">
+<span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-bold">2 Candidates</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-[#111418]/60 backdrop-blur-sm px-4">
+<!-- Modal Container -->
+<div class="w-full max-w-[640px] bg-white dark:bg-[#1a232e] rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+<!-- Modal Header -->
+<div class="flex items-center justify-between px-8 py-6 border-b border-[#f0f2f4] dark:border-[#343d48]">
+<div class="flex flex-col gap-1">
+<h2 class="text-2xl font-bold text-[#111418] dark:text-white leading-tight">Add New Position</h2>
+<p class="text-[#617289] dark:text-gray-400 text-sm font-normal">Define a new role for the current election cycle.</p>
+</div>
+<button class="text-[#617289] hover:text-[#111418] dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Form Body -->
+<div class="p-8 overflow-y-auto max-h-[70vh]">
+<form class="space-y-6">
+<!-- Position Title -->
+<div class="flex flex-col gap-2">
+<label class="text-[#111418] dark:text-white text-base font-semibold leading-normal">Position Title</label>
+<input class="form-input w-full rounded-lg border-[#dbe0e6] dark:border-[#343d48] dark:bg-[#101822] focus:ring-primary focus:border-primary h-12 px-4 text-base font-normal" placeholder="e.g., Student Body President" type="text"/>
+</div>
+<!-- Description -->
+<div class="flex flex-col gap-2">
+<label class="text-[#111418] dark:text-white text-base font-semibold leading-normal">Description &amp; Responsibilities</label>
+<textarea class="form-input w-full rounded-lg border-[#dbe0e6] dark:border-[#343d48] dark:bg-[#101822] focus:ring-primary focus:border-primary min-h-[120px] p-4 text-base font-normal resize-none" placeholder="Describe the duties and requirements for this role..."></textarea>
+<p class="text-[#617289] dark:text-gray-400 text-xs italic">This will be visible to candidates during registration and voters on their ballots.</p>
+</div>
+<!-- Settings Section -->
+<div class="pt-4 border-t border-[#f0f2f4] dark:border-[#343d48] space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex flex-col gap-0.5">
+<p class="text-[#111418] dark:text-white text-base font-bold leading-tight">Enable Multi-Select</p>
+<p class="text-[#617289] dark:text-gray-400 text-sm font-normal leading-normal">Allow voters to select more than one candidate (e.g., for Board Members).</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[#111418] dark:text-white text-base font-semibold leading-normal">Maximum Number of Selections</label>
+<div class="relative w-full max-w-[200px]">
+<input class="form-input w-full rounded-lg border-[#dbe0e6] dark:border-[#343d48] dark:bg-[#101822] focus:ring-primary focus:border-primary h-12 pl-4 pr-10 text-base font-normal" min="1" type="number" value="3"/>
+<div class="absolute inset-y-0 right-0 flex flex-col border-l border-[#dbe0e6] dark:border-[#343d48]">
+<button class="flex-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" type="button">
+<span class="material-symbols-outlined text-xs leading-none">expand_less</span>
+</button>
+<button class="flex-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border-t border-[#dbe0e6] dark:border-[#343d48]" type="button">
+<span class="material-symbols-outlined text-xs leading-none">expand_more</span>
+</button>
+</div>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm">Number of available seats for this specific position.</p>
+</div>
+</div>
+</form>
+</div>
+<!-- Modal Footer Actions -->
+<div class="flex items-center justify-end gap-3 px-8 py-6 bg-[#f8f9fa] dark:bg-[#1a232e] border-t border-[#f0f2f4] dark:border-[#343d48]">
+<button class="flex min-w-[100px] items-center justify-center rounded-lg border border-[#dbe0e6] dark:border-[#343d48] bg-white dark:bg-[#101822] px-4 py-2 text-sm font-bold text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-[#1a232e] transition-colors">
+                        Cancel
+                    </button>
+<button class="flex min-w-[140px] items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white shadow-lg hover:bg-primary/90 transition-all">
+                        Create Position
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

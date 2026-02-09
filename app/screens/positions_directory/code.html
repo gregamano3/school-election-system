@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Positions Directory - School Election System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f0f2f4] dark:border-white/10 px-6 lg:px-40 py-4 bg-white dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">how_to_vote</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-xl font-bold leading-tight tracking-tight">School Election System</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-primary text-sm font-semibold leading-normal border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="text-[#111418] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Positions</a>
+<a class="text-[#111418] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Voting</a>
+<a class="text-[#111418] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Results</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden sm:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden">
+<div class="text-[#617289] dark:text-gray-400 flex border-none bg-gray-100 dark:bg-white/5 items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-[#111418] dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-100 dark:bg-white/5 h-full placeholder:text-[#617289] dark:placeholder:text-gray-400 px-3 text-sm font-normal" placeholder="Search everywhere..." value=""/>
+</div>
+</label>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile picture of a student" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAAHnixiMRO6r-ZVOlRgRrXHFsM-1N2MyDezhRsmie8C6fD_7yvHnWRUXt_mRr3YcRSWZ515koa4ntDeKIaBk7eCi0SafWqTjy__2oKUENJbM0QhpU5W3XLikTAUWjngd5cRxvdSr5Gpfhwf3rtjpebZq3KxJHZVACw_dqLYeeU5tZNllEjqxOa1l_cq-tnho3zEb4bswCpg-pG7ywXxBKDB6nnThoeJMDH_Zpq_WraYe9bPnqLj50_KioPcaYRfNy_rI4vaQrLG2Tr");'></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 px-6 lg:px-40 py-8">
+<div class="max-w-[1200px] mx-auto">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-6">
+<a class="text-[#617289] dark:text-gray-400 text-sm font-medium hover:text-primary" href="#">Election 2024</a>
+<span class="text-[#617289] dark:text-gray-500 font-bold">/</span>
+<span class="text-[#111418] dark:text-white text-sm font-semibold">Positions Directory</span>
+</div>
+<!-- Page Header & Filters -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10">
+<div class="flex flex-col gap-2">
+<h1 class="text-[#111418] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Positions Directory</h1>
+<p class="text-[#617289] dark:text-gray-400 text-lg font-normal max-w-2xl">Explore available student government roles, read their responsibilities, and view current candidates running for office.</p>
+</div>
+<div class="flex items-center gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 rounded-lg h-11 px-6 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[#111418] dark:text-white text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-xl">description</span>
+<span>Election Guidelines</span>
+</button>
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 rounded-lg h-11 px-6 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-xl">add</span>
+<span>Apply for Role</span>
+</button>
+</div>
+</div>
+<!-- Search and Sort Bar -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white dark:bg-white/5 p-4 rounded-xl border border-gray-100 dark:border-white/10">
+<div class="flex-1 min-w-[300px]">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">filter_list</span>
+<input class="w-full bg-background-light dark:bg-white/5 border-none rounded-lg py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Filter positions by name or description..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-[#617289] dark:text-gray-400 mr-2">Sort by:</span>
+<button class="p-2.5 rounded-lg border border-gray-200 dark:border-white/10 flex items-center gap-2 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-white/10">
+<span>Newest First</span>
+<span class="material-symbols-outlined text-lg">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+<!-- Positions Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group flex flex-col bg-white dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center overflow-hidden" data-alt="Aerial view of a university building" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDOw3VlynxLEP7RZt_81GI2YM1TLcPKHqRF3vpeOMLfHoorpOi23Rf-O73dwPCLpae0a_vGoD2pXU99Sh313CyvZcP8nLnmAckTM3lpc9Foo52ZxzGuEfzIoprJ5k-x0-UFszq108WPo3UUA0d2_sKl6l8ptvEF9qGaPOVIeSDlXDNUtk2Wu82y6n_Hzk3PkDHLPUS9XiwKHtrexry317TOriycGS6lijsJ1c5e00D47wLq6-XIQM58jC8V_QapESIgci49lPsZvzg3');">
+<div class="w-full h-full bg-gradient-to-t from-black/60 to-transparent p-5 flex items-end">
+<span class="bg-primary text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Executive</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-[#111418] dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Student Body President</h3>
+<div class="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">group</span>
+                                        8 Candidates
+                                    </div>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                                    The primary representative for all students. Responsibilities include leading student council meetings, advocating for student needs to the administration, and overseeing major school-wide projects.
+                                </p>
+<div class="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center justify-between">
+<span class="text-xs font-medium text-gray-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        2 Weeks Left
+                                    </span>
+<a class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" href="#">
+                                        View Candidates
+                                        <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col bg-white dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center overflow-hidden" data-alt="Financial accounting reports and a calculator" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAy-cZUg2m2SPdPRQece7dUMBRCMwOJ0angcO7PVDPMWCLqjPZt5zSVoE5EX7wblySGoqlgiTEDKL5d7vHsGBAGY0BwQads2KjEmZi_xDqeLQZlqWijh6H4oDTyCMWTBmCP9bGKbClayMQQml_KI-KVnRt-BAz1iVz-IGRHxnTjCS2uJg_esZDnaQFI1zoduApzRRhkVlX8qwQXd4FewkXZ9LKZ7kIXImKyEApZtEXnkN5D0AkE25f6HrUwOP7jozYkiUbSbxvQwSDV');">
+<div class="w-full h-full bg-gradient-to-t from-black/60 to-transparent p-5 flex items-end">
+<span class="bg-primary text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Finance</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-[#111418] dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Treasurer</h3>
+<div class="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">group</span>
+                                        3 Candidates
+                                    </div>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                                    Manages the student activity fund, creates and oversees budgets for all school clubs and major events, and prepares monthly financial reports for the council.
+                                </p>
+<div class="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center justify-between">
+<span class="text-xs font-medium text-gray-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        2 Weeks Left
+                                    </span>
+<a class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" href="#">
+                                        View Candidates
+                                        <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col bg-white dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center overflow-hidden" data-alt="Writing tools and paper notes" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCzhvw40PFjhEqjXkmk6l4XRWZbtaPiGkOiEwY5VdL4ZzBeoERWVIry4KUqUvMowYlhZiUnCvt6P7A1Qt5A0vyYLjWy0EnOh7cIQ-qeineEy7iLOPP1eG1y-7VyLGBF6lsYsawrPB_bqfs0MPi08xTMFUS2G1iCWKmzzREIG2rjIruy2ZMCdc8iim9rDoZ2rS7t_IvCUhvXgY7tbp4qXE2iWjsMneM3MPrmxnMESGkAYDI1ngzyIwoTxOtX7lJcKwh0CWNOHqAMHb8v');">
+<div class="w-full h-full bg-gradient-to-t from-black/60 to-transparent p-5 flex items-end">
+<span class="bg-primary text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Administrative</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-[#111418] dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Secretary</h3>
+<div class="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">group</span>
+                                        5 Candidates
+                                    </div>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                                    Responsible for maintaining all official records, taking detailed minutes during council meetings, and managing formal correspondence between the council and students.
+                                </p>
+<div class="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center justify-between">
+<span class="text-xs font-medium text-gray-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        2 Weeks Left
+                                    </span>
+<a class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" href="#">
+                                        View Candidates
+                                        <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group flex flex-col bg-white dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center overflow-hidden" data-alt="Social media icons and digital devices" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2NrdI3FSpEJ9uLxePiA6zw9zWWEuUg4zax_NfP5hcBdTQFMPyfQblvWs-Cv1G1tDrP8Fa89V9myu9CLhxCa5SoOLcGIAIc4ZB6_-ZmKbY4voFNnQyZrZAA6nmt--I3KiumN2R4fO_g1BKQ6Nw3D23Rt9Z5CzRpgRZaOTgeXFU-xPdEnqgJ3DhqyWMmS0L7zHu6vBHWpHkzRw-t2ikb6KvgAWn6zk-rClZlYWx1ro8LKJroPt070lVWuKK5IlI47qYBEQ2g__BZfxd');">
+<div class="w-full h-full bg-gradient-to-t from-black/60 to-transparent p-5 flex items-end">
+<span class="bg-primary text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Media</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-[#111418] dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Social Media Manager</h3>
+<div class="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">group</span>
+                                        6 Candidates
+                                    </div>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                                    Oversees school-wide digital presence across Instagram, TikTok, and Twitter. Creates engaging content to keep students informed about school events and council decisions.
+                                </p>
+<div class="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center justify-between">
+<span class="text-xs font-medium text-gray-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        2 Weeks Left
+                                    </span>
+<a class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" href="#">
+                                        View Candidates
+                                        <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group flex flex-col bg-white dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center overflow-hidden" data-alt="A crowd at a organized event" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsg3kdhdFqUvD46l1ZDLqFgzIqV_51b5t-h92PbN9MplB6pNEza8FCPO9werUzRhcqHC0wcMP7O4D0sqGUQfttLru1H98UdS1NQMhNpReeNkZuW2OKoeEblhqt9w5z_P4iXeFVuPDjV40fJCC4rBIiDMC4C4d85kjcn-afeRgIE8a-hNG5nyFSKK_KcSsIF1LYmH_uC6Kz_clfKWbxPMPHagvL5VKc3XzF2XgauA1wcDahWIZPkBlsian30DIAafB9cpI9phRVjzj_');">
+<div class="w-full h-full bg-gradient-to-t from-black/60 to-transparent p-5 flex items-end">
+<span class="bg-primary text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Planning</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-[#111418] dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Event Coordinator</h3>
+<div class="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">group</span>
+                                        4 Candidates
+                                    </div>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                                    Leading the planning and execution of homecoming, school-wide pep rallies, and student festivals. Works closely with the Treasurer on event budgets.
+                                </p>
+<div class="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center justify-between">
+<span class="text-xs font-medium text-gray-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        2 Weeks Left
+                                    </span>
+<a class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" href="#">
+                                        View Candidates
+                                        <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group flex flex-col bg-white dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 overflow-hidden hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center overflow-hidden" data-alt="A small green sprout in soil" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDSf_LicG5uTtIflxVX6WXloLX5QyhNA6MhJASbsymR4VUlCXQkjZ5Qqpv2qsBynfYz3RG5omY9CLoN4VqbrrmNXPLdNNrx2s7p2BQgtd9zZQbAIOwrn5U0CO4dtEmS1sFN9F2OvADGYUga6w_seMTAEHItfSFlEpUueRL558wbp6MoNwkrxmOaXE1-ISesdlpHCGWXQPMeoHzquQgDDuV36cTiLUoPpFrsz3ib5zHREmp3phufQSDAE5DFYyYs2esW7OXp-fE0iGAB');">
+<div class="w-full h-full bg-gradient-to-t from-black/60 to-transparent p-5 flex items-end">
+<span class="bg-primary text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Social Impact</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-[#111418] dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Sustainability Liaison</h3>
+<div class="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">group</span>
+                                        2 Candidates
+                                    </div>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                                    Focuses on green initiatives within the school, managing recycling programs, waste reduction strategies, and promoting environmental awareness among the student body.
+                                </p>
+<div class="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center justify-between">
+<span class="text-xs font-medium text-gray-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                        2 Weeks Left
+                                    </span>
+<a class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" href="#">
+                                        View Candidates
+                                        <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Section -->
+<footer class="mt-16 py-10 border-t border-gray-100 dark:border-white/10 text-center">
+<div class="flex flex-col items-center gap-4">
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined">help</span>
+<span>Need help?</span>
+</div>
+<p class="text-[#617289] dark:text-gray-400 text-sm">Contact the Election Committee at elections@school.edu for any questions regarding role descriptions or application processes.</p>
+<div class="flex gap-4 mt-4">
+<a class="text-xs font-semibold text-gray-500 hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-xs font-semibold text-gray-500 hover:text-primary" href="#">Terms of Service</a>
+<a class="text-xs font-semibold text-gray-500 hover:text-primary" href="#">Election Bylaws</a>
+</div>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</div>
+</body></html>

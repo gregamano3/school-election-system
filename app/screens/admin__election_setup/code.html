@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Election Setup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white antialiased">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-solid border-[#dbe0e6] dark:border-[#2d394a] bg-white dark:bg-[#1a2433] px-10 py-3 z-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#111418] dark:text-white">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">School Election System</h2>
+</div>
+<nav class="flex items-center gap-6">
+<a class="text-[#617289] dark:text-[#a1b0c3] text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-4" href="#">Elections</a>
+<a class="text-[#617289] dark:text-[#a1b0c3] text-sm font-medium hover:text-primary transition-colors" href="#">Results</a>
+<a class="text-[#617289] dark:text-[#a1b0c3] text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<label class="relative flex items-center min-w-64">
+<span class="material-symbols-outlined absolute left-3 text-[#617289]">search</span>
+<input class="w-full rounded-lg border-none bg-[#f0f2f4] dark:bg-[#2d394a] py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary dark:text-white" placeholder="Search elections or candidates..."/>
+</label>
+<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary" data-alt="Admin user profile headshot photo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCMFYyQh0SbaT53xFKn4y1_BqpIfNzZIkb6egT9E6VKgpppjE5FL4I_4rc451LZ6mPKQvfOZLAg8TqpvgXZ7jJwY_mOyUJIVS6frM-Ylr2Oohemzu4afZK5lbKhnr1Y2fEmTEyp6oauquAgkwxqCtTtqtW1V0wvlf1TSyXpmyXBRh3sLOj4c_BuLpR7L9PG0Bu0WEycTVrBFcJ55C9Mp83Eb2bPsEOoluNjqeB4aXxof3pUdAv60w3gUEve_SuMXPRX5IE-yGz2Fez3");'></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-[#dbe0e6] dark:border-[#2d394a] bg-white dark:bg-[#1a2433] flex flex-col">
+<div class="p-6">
+<h3 class="text-xs font-bold uppercase tracking-wider text-[#617289] dark:text-[#a1b0c3] mb-4">Election Management</h3>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617289] dark:text-[#a1b0c3] hover:bg-[#f0f2f4] dark:hover:bg-[#2d394a]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="text-sm font-bold">Election Setup</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617289] dark:text-[#a1b0c3] hover:bg-[#f0f2f4] dark:hover:bg-[#2d394a]" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-sm font-medium">Candidate Database</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617289] dark:text-[#a1b0c3] hover:bg-[#f0f2f4] dark:hover:bg-[#2d394a]" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm font-medium">System Logs</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-[#dbe0e6] dark:border-[#2d394a]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-green-500">fiber_manual_record</span>
+<span class="text-xs font-medium text-[#617289] dark:text-[#a1b0c3]">System Online</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- Content Header -->
+<div class="px-8 py-6 flex items-center justify-between border-b border-[#dbe0e6] dark:border-[#2d394a] bg-white dark:bg-[#1a2433]">
+<div>
+<h1 class="text-2xl font-black tracking-tight text-[#111418] dark:text-white">Election Setup</h1>
+<p class="text-sm text-[#617289] dark:text-[#a1b0c3]">Academic Year 2024-2025</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f0f2f4] dark:bg-[#2d394a] text-sm font-bold hover:bg-[#e4e7eb] dark:hover:bg-[#39485d] transition-colors">
+<span class="material-symbols-outlined text-lg">visibility</span>
+                            Preview Ballot
+                        </button>
+<button class="px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-primary/20">
+                            Save Changes
+                        </button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="px-8 bg-white dark:bg-[#1a2433]">
+<div class="flex gap-8 border-b border-[#dbe0e6] dark:border-[#2d394a]">
+<button class="border-b-2 border-primary px-1 py-4 text-sm font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">badge</span>
+                            Positions
+                        </button>
+<button class="px-1 py-4 text-sm font-medium text-[#617289] dark:text-[#a1b0c3] hover:text-[#111418] dark:hover:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">person_search</span>
+                            Voter Eligibility
+                        </button>
+</div>
+</div>
+<!-- Split Pane Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Pane: Positions List -->
+<div class="w-1/3 border-r border-[#dbe0e6] dark:border-[#2d394a] bg-background-light dark:bg-background-dark flex flex-col overflow-y-auto">
+<div class="p-4 flex items-center justify-between">
+<h3 class="font-bold text-sm text-[#617289] dark:text-[#a1b0c3]">Current Positions (6)</h3>
+<button class="text-primary flex items-center gap-1 text-sm font-bold hover:underline">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+                                Add Position
+                            </button>
+</div>
+<div class="flex flex-col px-4 gap-2 pb-6">
+<!-- Position Card Active -->
+<div class="p-4 rounded-xl bg-white dark:bg-[#1a2433] border-2 border-primary shadow-sm cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-[#111418] dark:text-white">Student Body President</h4>
+<span class="material-symbols-outlined text-primary">drag_handle</span>
+</div>
+<div class="flex items-center gap-4 text-xs text-[#617289] dark:text-[#a1b0c3]">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">groups</span> 3 Candidates
+                                    </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">grade</span> All Grades
+                                    </span>
+</div>
+</div>
+<!-- Position Card -->
+<div class="p-4 rounded-xl bg-white dark:bg-[#1a2433] border border-transparent hover:border-[#dbe0e6] dark:hover:border-[#2d394a] shadow-sm cursor-pointer transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-[#111418] dark:text-white">Vice President</h4>
+<span class="material-symbols-outlined text-[#617289]">drag_handle</span>
+</div>
+<div class="flex items-center gap-4 text-xs text-[#617289] dark:text-[#a1b0c3]">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">groups</span> 2 Candidates
+                                    </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">grade</span> 11th - 12th
+                                    </span>
+</div>
+</div>
+<!-- Position Card -->
+<div class="p-4 rounded-xl bg-white dark:bg-[#1a2433] border border-transparent hover:border-[#dbe0e6] dark:hover:border-[#2d394a] shadow-sm cursor-pointer transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-[#111418] dark:text-white">Treasurer</h4>
+<span class="material-symbols-outlined text-[#617289]">drag_handle</span>
+</div>
+<div class="flex items-center gap-4 text-xs text-orange-500">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">warning</span> No Candidates
+                                    </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-[#617289]">grade</span> All Grades
+                                    </span>
+</div>
+</div>
+<!-- Position Card -->
+<div class="p-4 rounded-xl bg-white dark:bg-[#1a2433] border border-transparent hover:border-[#dbe0e6] dark:hover:border-[#2d394a] shadow-sm cursor-pointer transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-[#111418] dark:text-white">Secretary</h4>
+<span class="material-symbols-outlined text-[#617289]">drag_handle</span>
+</div>
+<div class="flex items-center gap-4 text-xs text-[#617289] dark:text-[#a1b0c3]">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">groups</span> 4 Candidates
+                                    </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">grade</span> 10th - 12th
+                                    </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Pane: Candidate Management -->
+<div class="flex-1 overflow-y-auto p-8 bg-white dark:bg-[#101822]">
+<div class="max-w-4xl mx-auto">
+<!-- Position Header -->
+<div class="flex items-start justify-between mb-8">
+<div>
+<h2 class="text-xl font-bold text-[#111418] dark:text-white flex items-center gap-2">
+                                        Student Body President
+                                        <span class="material-symbols-outlined text-primary cursor-pointer">edit</span>
+</h2>
+<p class="text-[#617289] dark:text-[#a1b0c3] mt-1">Manage candidates and requirements for this role.</p>
+</div>
+<div class="flex items-center gap-2 text-xs font-bold bg-[#f0f2f4] dark:bg-[#2d394a] px-3 py-1 rounded-full uppercase tracking-tight">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                    Published
+                                </div>
+</div>
+<!-- Requirements Section -->
+<div class="grid grid-cols-2 gap-6 mb-10">
+<div class="p-4 rounded-xl border border-[#dbe0e6] dark:border-[#2d394a]">
+<label class="block text-xs font-bold text-[#617289] dark:text-[#a1b0c3] uppercase mb-2">Grade Eligibility</label>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">All Grades</span>
+<button class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#2d394a] text-xs font-medium rounded-full hover:bg-primary hover:text-white transition-colors">Edit</button>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-[#dbe0e6] dark:border-[#2d394a]">
+<label class="block text-xs font-bold text-[#617289] dark:text-[#a1b0c3] uppercase mb-2">Seats Available</label>
+<div class="flex items-center gap-2">
+<span class="text-xl font-black text-primary">1</span>
+<span class="text-sm text-[#617289] dark:text-[#a1b0c3]">Executive Position</span>
+</div>
+</div>
+</div>
+<!-- Candidates List -->
+<div class="mb-6 flex items-center justify-between">
+<h3 class="font-bold text-lg text-[#111418] dark:text-white">Candidates</h3>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm font-bold hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">add</span>
+                                    Add New Candidate
+                                </button>
+</div>
+<!-- Candidate Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Candidate Card -->
+<div class="p-5 rounded-xl border border-[#dbe0e6] dark:border-[#2d394a] bg-white dark:bg-[#1a2433] flex gap-4 group hover:shadow-md transition-shadow">
+<div class="size-20 rounded-lg overflow-hidden flex-shrink-0 bg-background-light dark:bg-background-dark relative group">
+<img class="w-full h-full object-cover" data-alt="Candidate profile headshot of a smiling student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi_D4sPyJQmXFSsZUFXyOd6pcWDMf3gdvDRF3UOopTReEVrtylCS2YZU-iOmd3vQJUWDjYMsHop1MeqWijbYp4K199kGppHvSHr47U6yhaSxtHv4QfuJxikVWbErAnw65ySrlIyRNcGywbfKhDZu4nB7Z12Fx5lLA78ZqsMtkISpsljyf8DG61Ho1-Fq8B2A1JFEmb3Y_2PgWSej93y5uLXiquAYoHc4ATkI0iyZHiAVL9BycnHbHfGMWOiMaIxjAnMxWQ1O1ZBpjs"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white">photo_camera</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="font-bold text-[#111418] dark:text-white leading-tight">Sarah Jenkins</h5>
+<p class="text-xs text-primary font-bold">12th Grade</p>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 hover:text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<p class="text-xs text-[#617289] dark:text-[#a1b0c3] mt-2 line-clamp-2 italic">"Committed to bringing more extracurricular funding to our arts department and improving lunch options."</p>
+</div>
+</div>
+<!-- Candidate Card -->
+<div class="p-5 rounded-xl border border-[#dbe0e6] dark:border-[#2d394a] bg-white dark:bg-[#1a2433] flex gap-4 group hover:shadow-md transition-shadow">
+<div class="size-20 rounded-lg overflow-hidden flex-shrink-0 bg-background-light dark:bg-background-dark relative group">
+<img class="w-full h-full object-cover" data-alt="Candidate profile headshot of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoH0xIfqNuiOyWtVhr8gwPPI5I-z0va1uW5ikjt9rZBZnnHsjPB-JFsz1H0i-_R_ow1nQaCk0skK0V1gWZ6-vDu75jdGpyEQa_mX1B5Z80yNCQhkFsflrwdxdYs4q4NHbYVMCdkQOpHS5u5CamBGweX-vyS6KivNRstph4mySg0VLnKUfbRWDc4qktDeH_Pk-lVauhkHcHVWlbKXXjxycqx7VPThEGikdzZUZgxl6wmkTybemvWLJ8oNyXuXRlm1zDKJRJNTPRKsDy"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white">photo_camera</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="font-bold text-[#111418] dark:text-white leading-tight">Marcus Thompson</h5>
+<p class="text-xs text-primary font-bold">11th Grade</p>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 hover:text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<p class="text-xs text-[#617289] dark:text-[#a1b0c3] mt-2 line-clamp-2 italic">"A voice for all students. I will work directly with administration to expand library hours and tutoring."</p>
+</div>
+</div>
+<!-- Candidate Card -->
+<div class="p-5 rounded-xl border border-[#dbe0e6] dark:border-[#2d394a] bg-white dark:bg-[#1a2433] flex gap-4 group hover:shadow-md transition-shadow">
+<div class="size-20 rounded-lg overflow-hidden flex-shrink-0 bg-background-light dark:bg-background-dark relative group">
+<img class="w-full h-full object-cover" data-alt="Candidate profile headshot of a student with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB1YFYkr0UquKI_ptwEwFE9bWADoFwV6lm11xlf963qpoQrU-MwHfYXK8s4JkzELMpwPL3PKiRXt1G-pFt4kDyT1SqhJ7GGRUXFc4h-8Ksa3mq_bewsM-o6G40D9PhDs_xlqq1PG7DiAQynPaq1SrqDCWR1tE8UoZPXWN3P8tEnNgHOPuBUcTrkE8qSXwkqNbTjqHpIXalT3erbwOmqe4KeaQ84d8egrFzp7GTx4T_7fUkTVXWh1NRarmOP4wNk8AsAWidl80aqYKy"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white">photo_camera</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="font-bold text-[#111418] dark:text-white leading-tight">David Chen</h5>
+<p class="text-xs text-primary font-bold">12th Grade</p>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 hover:text-red-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<p class="text-xs text-[#617289] dark:text-[#a1b0c3] mt-2 line-clamp-2 italic">"Focusing on mental health awareness and student wellbeing initiatives across campus."</p>
+</div>
+</div>
+</div>
+<!-- Add Candidate Inline Form (Simulated) -->
+<div class="mt-8 p-6 rounded-xl border-2 border-dashed border-[#dbe0e6] dark:border-[#2d394a] bg-background-light/50 dark:bg-background-dark/50">
+<div class="text-center flex flex-col items-center">
+<span class="material-symbols-outlined text-4xl text-[#617289] mb-2">person_add</span>
+<h4 class="font-bold text-[#111418] dark:text-white">New Candidate Draft</h4>
+<p class="text-sm text-[#617289] dark:text-[#a1b0c3] mb-4">Fill out the details to add another candidate to this position.</p>
+<div class="w-full grid grid-cols-2 gap-4 text-left">
+<div class="space-y-1">
+<label class="text-xs font-bold text-[#617289] dark:text-[#a1b0c3] uppercase">Full Name</label>
+<input class="w-full px-4 py-2 rounded-lg border-[#dbe0e6] dark:border-[#2d394a] dark:bg-[#1a2433] text-sm" placeholder="e.g. John Doe" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-xs font-bold text-[#617289] dark:text-[#a1b0c3] uppercase">Grade</label>
+<select class="w-full px-4 py-2 rounded-lg border-[#dbe0e6] dark:border-[#2d394a] dark:bg-[#1a2433] text-sm">
+<option>9th Grade</option>
+<option>10th Grade</option>
+<option>11th Grade</option>
+<option>12th Grade</option>
+</select>
+</div>
+<div class="col-span-2 space-y-1">
+<label class="text-xs font-bold text-[#617289] dark:text-[#a1b0c3] uppercase">Short Campaign Bio</label>
+<textarea class="w-full px-4 py-2 rounded-lg border-[#dbe0e6] dark:border-[#2d394a] dark:bg-[#1a2433] text-sm h-20" placeholder="A brief statement for the ballot..."></textarea>
+</div>
+</div>
+<div class="mt-6 flex gap-3">
+<button class="px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold shadow-md">Add to Position</button>
+<button class="px-6 py-2 rounded-lg bg-[#f0f2f4] dark:bg-[#2d394a] text-sm font-bold">Discard</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

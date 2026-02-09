@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Add Candidate - School Election System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white antialiased overflow-hidden">
+<div class="relative flex h-screen w-full flex-col group/design-root">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e7eb] dark:border-[#2d3748] bg-white dark:bg-[#1a202c] px-4 md:px-10 py-3 opacity-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">how_to_reg</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-tight">VoteSchool Admin</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#64748b] dark:text-[#a0aec0] text-sm font-semibold" href="#">Dashboard</a>
+<a class="text-primary text-sm font-semibold" href="#">Elections</a>
+<a class="text-[#64748b] dark:text-[#a0aec0] text-sm font-semibold" href="#">Students</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-primary" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwZC2hFKZff7EhyHqt5f3DuqbNBJqY8foGJueCCZJ2FLpx_zUU0WVC6VIQpYUa9QQA-gQbwdchMa1sy2pUA9GKFcWEWBF6My8YLya2qvGSpZ3Y1cpJwsRJcj1k3S1fYLN-CUCPg3e0eU1t71P38zPEOpyEWaRZdbgZfBKJdYhFTa6B9as30Jzsc0pFavbs67twVtYu0Cn3XZhG4MkOedWTgu9PpZBer20_Oh6snZc76lxRo2Z-B3Bm23pU29zXJUl1uyN0N36S0el2");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8 opacity-50 grayscale-[20%]">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
+<div class="flex flex-col gap-2 mb-8">
+<h1 class="text-4xl font-black">Election Setup: 2024 Presidential</h1>
+<p class="text-lg text-[#64748b]">Manage candidates for the upcoming student government elections.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="h-64 bg-white dark:bg-[#1a202c] rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-gray-400">person_add</span>
+<span class="mt-2 text-sm font-bold text-gray-500">Add Candidate</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="fixed inset-0 bg-black/60 backdrop-blur-[2px] z-[100] flex items-center justify-center p-4">
+<div class="bg-white dark:bg-[#1a202c] w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
+<div class="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+<div>
+<h2 class="text-xl font-bold text-[#111418] dark:text-white">Add New Candidate</h2>
+<p class="text-xs text-[#64748b] dark:text-[#a0aec0] mt-1 uppercase tracking-wider font-semibold">Election Setup • Student Council</p>
+</div>
+<button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-400">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="px-8 pt-6">
+<div class="flex items-center justify-between max-w-md mx-auto relative">
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-gray-100 dark:bg-gray-800 -z-10 -translate-y-1/2"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold ring-4 ring-white dark:ring-[#1a202c]">1</div>
+<span class="text-[10px] font-bold text-primary uppercase">Basic Info</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 flex items-center justify-center text-xs font-bold ring-4 ring-white dark:ring-[#1a202c]">2</div>
+<span class="text-[10px] font-bold text-gray-400 uppercase">Profile</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 flex items-center justify-center text-xs font-bold ring-4 ring-white dark:ring-[#1a202c]">3</div>
+<span class="text-[10px] font-bold text-gray-400 uppercase">Manifesto</span>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-8 pt-6">
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Full Name</label>
+<input class="form-input rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring-primary focus:border-primary text-sm" placeholder="e.g. Alex Rivera" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Grade Level</label>
+<select class="form-select rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring-primary focus:border-primary text-sm">
+<option>Select Grade</option>
+<option>9th Grade</option>
+<option>10th Grade</option>
+<option>11th Grade</option>
+<option>12th Grade</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Candidate ID</label>
+<input class="form-input rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring-primary focus:border-primary text-sm" placeholder="e.g. CAND-2024-001" type="text"/>
+</div>
+</div>
+<div class="border-t border-gray-100 dark:border-gray-800 pt-6">
+<h3 class="text-sm font-bold text-[#111418] dark:text-white mb-4">Profile Details</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Upload Photo</label>
+<div class="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-800/50 cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-gray-400">add_a_photo</span>
+<p class="text-[10px] text-gray-500 mt-2">Click to upload JPG or PNG</p>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Slogan / Tagline</label>
+<textarea class="form-textarea rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring-primary focus:border-primary text-sm resize-none" placeholder="Your campaign slogan..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-100 dark:border-gray-800 pt-6">
+<h3 class="text-sm font-bold text-[#111418] dark:text-white mb-4">Manifesto</h3>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Comprehensive Manifesto</label>
+<textarea class="form-textarea rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring-primary focus:border-primary text-sm" placeholder="Describe your vision, goals, and why students should vote for you..." rows="6"></textarea>
+<p class="text-[10px] text-[#64748b]">Supports basic markdown for formatting.</p>
+</div>
+</div>
+</form>
+</div>
+<div class="p-6 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/30 flex justify-end gap-3 rounded-b-2xl">
+<button class="px-6 h-10 text-sm font-bold text-[#64748b] dark:text-[#a0aec0] hover:text-[#111418] dark:hover:text-white transition-colors">
+                        Cancel
+                    </button>
+<button class="px-8 h-10 bg-primary text-white text-sm font-bold rounded-lg hover:bg-blue-600 transition-all shadow-lg shadow-primary/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                        Add Candidate
+                    </button>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

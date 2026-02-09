@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Electoral Portal - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden p-4">
+<!-- Main Login Container -->
+<div class="layout-content-container flex w-full max-w-[480px] flex-col gap-6">
+<!-- Branding Header -->
+<div class="flex flex-col items-center gap-4 text-center">
+<div class="flex items-center justify-center rounded-xl bg-primary/10 p-3 text-primary">
+<span class="material-symbols-outlined !text-4xl" data-icon="how_to_reg">how_to_reg</span>
+</div>
+<div class="flex flex-col gap-1">
+<h1 class="text-2xl font-bold tracking-tight text-[#111418] dark:text-white">Electoral Portal</h1>
+<p class="text-sm font-medium text-[#617289] dark:text-gray-400">Student Government Elections</p>
+</div>
+</div>
+<!-- Login Card -->
+<div class="rounded-xl border border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-gray-800 p-8 shadow-sm">
+<!-- Role Toggle -->
+<div class="flex pb-6">
+<div class="flex h-11 flex-1 items-center justify-center rounded-lg bg-background-light dark:bg-gray-900 p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-gray-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-[#617289] text-sm font-semibold transition-all">
+<span class="truncate">Student Voter</span>
+<input checked="" class="invisible w-0" name="role-toggle" type="radio" value="student"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-gray-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-[#617289] text-sm font-semibold transition-all">
+<span class="truncate">Admin Staff</span>
+<input class="invisible w-0" name="role-toggle" type="radio" value="admin"/>
+</label>
+</div>
+</div>
+<!-- Form Fields -->
+<form class="flex flex-col gap-5">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#111418] dark:text-gray-200">Student/Staff ID</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 !text-xl" data-icon="badge">badge</span>
+<input class="form-input block w-full rounded-lg border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-gray-900 pl-11 pr-4 py-3 text-base focus:border-primary focus:ring-primary dark:text-white placeholder:text-gray-400" placeholder="Enter your ID number" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="text-sm font-semibold text-[#111418] dark:text-gray-200">Password</label>
+<a class="text-xs font-medium text-primary hover:underline" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 !text-xl" data-icon="lock">lock</span>
+<input class="form-input block w-full rounded-lg border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-gray-900 pl-11 pr-4 py-3 text-base focus:border-primary focus:ring-primary dark:text-white placeholder:text-gray-400" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Action Button -->
+<button class="mt-2 flex w-full items-center justify-center rounded-lg bg-primary px-4 py-3.5 text-base font-bold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" type="submit">
+                        Sign In
+                    </button>
+</form>
+<!-- Help/Contact Section -->
+<div class="mt-8 border-t border-gray-100 dark:border-gray-700 pt-6 text-center">
+<p class="text-sm text-[#617289] dark:text-gray-400">
+                        Issues logging in? 
+                        <a class="font-semibold text-primary hover:underline" href="#">Contact Committee</a>
+</p>
+</div>
+</div>
+<!-- Footer Meta -->
+<div class="flex flex-col items-center gap-4 text-center">
+<div class="flex items-center gap-2 text-xs font-medium text-[#617289] dark:text-gray-500 uppercase tracking-widest">
+<span class="material-symbols-outlined !text-sm" data-icon="verified_user">verified_user</span>
+                    Secure 256-bit encrypted connection
+                </div>
+<div class="flex gap-6">
+<a class="text-xs text-[#617289] hover:text-[#111418] dark:hover:text-white transition-colors" href="#">Election Rules</a>
+<a class="text-xs text-[#617289] hover:text-[#111418] dark:hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs text-[#617289] hover:text-[#111418] dark:hover:text-white transition-colors" href="#">Support</a>
+</div>
+</div>
+</div>
+<!-- Background Decoration (Subtle school themed elements) -->
+<div class="fixed inset-0 -z-10 h-full w-full bg-background-light dark:bg-background-dark">
+<div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" data-alt="Subtle grid pattern background" style="background-image: radial-gradient(#136dec 1px, transparent 1px); background-size: 40px 40px;">
+</div>
+<div class="absolute -top-[10%] -left-[10%] h-[400px] w-[400px] rounded-full bg-primary/5 blur-[100px]" data-alt="Blue light glow decoration"></div>
+<div class="absolute -bottom-[10%] -right-[10%] h-[400px] w-[400px] rounded-full bg-primary/5 blur-[100px]" data-alt="Blue light glow decoration"></div>
+</div>
+</div>
+</body></html>

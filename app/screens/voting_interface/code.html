@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voting Interface - Student Government Elections</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Public Sans", sans-serif;
+        }
+        .candidate-card.selected {
+            border-color: #136dec;
+            background-color: rgba(19, 109, 236, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 px-6 lg:px-20 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg text-white">
+<span class="material-symbols-outlined block">how_to_vote</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-tight">Student Government</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">2024 General Elections</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex flex-col items-end">
+<span class="text-sm font-medium">Marcus Thompson</span>
+<span class="text-xs text-slate-500">Student ID: #88291</span>
+</div>
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-primary/20" data-alt="Student profile picture placeholder" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMRKohD5T6Wvt7XtaXv3wxYsgdP8k_V5P-zjLPnOtJ0Rfvgdu7x9yXLMG4WyyyFoL8VDRXbVJxCVhQoUAwisKA_he7LMeqNn9Z-GQl07gxdyv4MZb9MG15c1k8rFQn2r3lOFv_9Ai5FXv9HXTtiC_wGS1Llyh-gx00matveO5iwpbKqYHFjKFTKMAsRuxebQHG0wBJvReWiHzVM18vV9fgpUxiCld_4dmJNEIVUlcBobH30C9BWzHNX13WILrFv9KY8Pq2bI5Q-61e');">
+</div>
+</div>
+</header>
+<!-- Main Voting Container -->
+<main class="flex-grow max-w-6xl mx-auto w-full px-6 py-8">
+<!-- Progress Stepper -->
+<div class="mb-10">
+<div class="flex items-center justify-between mb-3 px-1">
+<span class="text-sm font-semibold text-primary">Election Progress</span>
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Step 2 of 5: President</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full transition-all duration-500" style="width: 40%;"></div>
+</div>
+<div class="grid grid-cols-5 mt-4">
+<div class="flex flex-col items-center gap-1 opacity-60">
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+<span class="text-[10px] uppercase tracking-wider font-bold">Senator</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary text-sm">radio_button_checked</span>
+<span class="text-[10px] uppercase tracking-wider font-bold text-primary">President</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-40">
+<span class="material-symbols-outlined text-slate-400 text-sm">circle</span>
+<span class="text-[10px] uppercase tracking-wider font-bold">VP</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-40">
+<span class="material-symbols-outlined text-slate-400 text-sm">circle</span>
+<span class="text-[10px] uppercase tracking-wider font-bold">Treasury</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-40">
+<span class="material-symbols-outlined text-slate-400 text-sm">circle</span>
+<span class="text-[10px] uppercase tracking-wider font-bold">Secretary</span>
+</div>
+</div>
+</div>
+<!-- Position Header -->
+<div class="text-center mb-10">
+<h2 class="text-3xl font-bold mb-2">Vote for President</h2>
+<p class="text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
+                    The President leads the Student Council, represents the student body in administrative meetings, and oversees all major campus events.
+                </p>
+</div>
+<!-- Candidate Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+<!-- Candidate 1 -->
+<div class="candidate-card bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-xl p-6 flex flex-col items-center text-center hover:border-primary/50 transition-all cursor-pointer group">
+<div class="relative mb-4">
+<div class="size-24 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Candidate Alex Rivera portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjZUvVjoECnWzlks7FfaUvYmCbBBFLwh8PlTaG2BWfhv_8cK58KUsohajyuxijLwMW6sFKvBECvs_LKCPA9XjHKtUYy3_NjSb0e4Igchnd09MhAVmE9QJE6Nw8MGffsCTqvPgv-yBKXZZBePydqybNaJtCyvuW2LBEympTcusv-SJfw9zBWhtdoSZgLTpO3lAlmiwzQKD2X1Id5690gmIPL0e07lMpmkc6T1hu3VregcrgUCs58yU8pLC8E742mPbMsbZDH_tlrtRv"/>
+</div>
+</div>
+<h3 class="text-xl font-bold mb-1">Alex Rivera</h3>
+<p class="text-primary font-semibold text-sm mb-4">Grade 11 • Honors Society</p>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow">
+                        "I am committed to making our campus more sustainable. My plan includes a comprehensive recycling program and a new student-led rooftop garden."
+                    </p>
+<button class="w-full py-2.5 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">check</span>
+                        Select Candidate
+                    </button>
+</div>
+<!-- Candidate 2 (Selected State Example) -->
+<div class="candidate-card selected bg-white dark:bg-slate-900 border-2 border-primary rounded-xl p-6 flex flex-col items-center text-center shadow-lg shadow-primary/10 transition-all cursor-pointer ring-2 ring-primary/20">
+<div class="relative mb-4">
+<div class="size-24 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Candidate Jordan Smith portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRkxhEQQ2-Jqp3TP_3ezOfMaTXF5LstVWl8onCzfv983rh_5pj_FIKsRxS0aVNhyD5B-_arafZUGM_owCEXEhoxFEqiMzqynFu9OOTrnBG4ekAFLp1YeeqnvQf2uBxsR97merzy79e67P3LpjI5RzE1a3alR581tZ7-vesCsLE5YZGhD7ZdU9WymcjfcMyFNC1UBUV5bkhgp7ohx4nFpfC882HNuEtfnWgQpV2cNmm2XUSS-ZRnbEDDgabdzOGb_xvnvLW43gzYbCy"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white size-8 rounded-full flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+</div>
+<h3 class="text-xl font-bold mb-1">Jordan Smith</h3>
+<p class="text-primary font-semibold text-sm mb-4">Grade 12 • Debate Captain</p>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow">
+                        "Community starts with listening. I will implement monthly 'Open Door' town halls where any student can voice concerns directly to the council."
+                    </p>
+<button class="w-full py-2.5 rounded-lg bg-primary text-white font-bold transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">task_alt</span>
+                        Selected
+                    </button>
+</div>
+<!-- Candidate 3 -->
+<div class="candidate-card bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-xl p-6 flex flex-col items-center text-center hover:border-primary/50 transition-all cursor-pointer group">
+<div class="relative mb-4">
+<div class="size-24 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Candidate Taylor Chen portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaRReeWFFwMbkxwXMkbdCMIBofUdviVOi_gKxZmxvG5wFvMbvd5QY2R4ed_qHWfGw89l03xxyAFgihVv7RUqSXteGrjESpIQoIaC2UyhUpXrNC_8auP1FCRFla0amv-xdyAEKJCsHnsS6a3hr8tkDZyTdDMLg5VoWdNwFObIcJ3B8Ph3EorGa5oSw_98ETEboajIPQK17MSZSwZUQJsAuAKzwrNTIFHnBsHDDU8DwCZ-Sqa1i68FMTsksxcz8e0_a2ss63bI8-ls5l"/>
+</div>
+</div>
+<h3 class="text-xl font-bold mb-1">Taylor Chen</h3>
+<p class="text-primary font-semibold text-sm mb-4">Grade 11 • Varsity Soccer</p>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow">
+                        "Focusing on the balance between academics and sports. I'll fight for extended library hours during finals and better gear for our athletic clubs."
+                    </p>
+<button class="w-full py-2.5 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">check</span>
+                        Select Candidate
+                    </button>
+</div>
+</div>
+<!-- Abstain Option -->
+<div class="max-w-md mx-auto">
+<button class="w-full flex items-center justify-center gap-3 py-4 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 hover:text-slate-700 hover:border-slate-400 transition-all">
+<span class="material-symbols-outlined">block</span>
+<span class="font-medium">Abstain from voting for this position</span>
+</button>
+</div>
+</main>
+<!-- Footer Navigation -->
+<footer class="sticky bottom-0 bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 px-6 lg:px-20 py-6 flex items-center justify-between shadow-2xl">
+<button class="flex items-center gap-2 px-6 py-3 rounded-lg border border-slate-200 dark:border-slate-700 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+                Previous Position
+            </button>
+<div class="flex items-center gap-6">
+<p class="hidden md:block text-sm text-slate-500 italic">
+                    You can change your selection before final submission
+                </p>
+<button class="flex items-center gap-2 px-10 py-3 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+                    Next: Vice President
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</footer>
+</div>
+</body></html>

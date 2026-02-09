@@ -1,26 +1,76 @@
 @import "tailwindcss";
 
+/* Dark mode only when .dark is on html (user toggle), not system preference */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #136dec;
+  --background-light: #f6f7f8;
+  --background-dark: #101822;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-background-light: var(--background-light);
+  --color-background-dark: var(--background-dark);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark mode only when .dark is set on html (user preference), not system */
+html.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Print / Save as PDF: hide nav and buttons, show only results */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-only.hidden {
+    display: block !important;
+  }
+  .results-page {
+    background: white !important;
+  }
+  .results-page main {
+    background: white !important;
+  }
+  .results-page [class*="dark:"] {
+    color: inherit !important;
+  }
+  .results-page .text-white,
+  .results-page .dark\:text-white {
+    color: #111827 !important;
+  }
+  .results-page .text-gray-400,
+  .results-page .text-gray-500,
+  .results-page .dark\:text-gray-400 {
+    color: #4b5563 !important;
+  }
+  .results-page .bg-\[\#1a2432\],
+  .results-page .dark\:bg-\[\#1a2432\] {
+    background: #f9fafb !important;
+  }
+  .results-page .border-gray-700,
+  .results-page .dark\:border-gray-700 {
+    border-color: #e5e7eb !important;
+  }
+  .results-page .dark\:bg-\[\#1a2433\] {
+    background: #f3f4f6 !important;
+  }
 }

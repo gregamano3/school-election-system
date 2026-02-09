@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Candidates Page - School Election System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e7eb] dark:border-[#2d3748] bg-white dark:bg-[#1a202c] px-4 md:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">how_to_reg</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-tight">VoteSchool</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#64748b] dark:text-[#a0aec0] hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-semibold" href="#">Candidates</a>
+<a class="text-[#64748b] dark:text-[#a0aec0] hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">My Ballot</a>
+<a class="text-[#64748b] dark:text-[#a0aec0] hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Results</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden lg:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#64748b] dark:text-[#a0aec0] flex border-none bg-gray-100 dark:bg-gray-800 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-gray-100 dark:bg-gray-800 focus:ring-0 h-full placeholder:text-[#64748b] dark:placeholder:text-[#a0aec0] px-4 rounded-r-lg text-sm font-normal" placeholder="Search candidates..." value=""/>
+</div>
+</label>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center text-[#64748b] dark:text-[#a0aec0] hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full p-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-primary" data-alt="Student profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwZC2hFKZff7EhyHqt5f3DuqbNBJqY8foGJueCCZJ2FLpx_zUU0WVC6VIQpYUa9QQA-gQbwdchMa1sy2pUA9GKFcWEWBF6My8YLya2qvGSpZ3Y1cpJwsRJcj1k3S1fYLN-CUCPg3e0eU1t71P38zPEOpyEWaRZdbgZfBKJdYhFTa6B9as30Jzsc0pFavbs67twVtYu0Cn3XZhG4MkOedWTgu9PpZBer20_Oh6snZc76lxRo2Z-B3Bm23pU29zXJUl1uyN0N36S0el2");'></div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
+<!-- Breadcrumbs & Header -->
+<nav class="flex items-center gap-2 mb-4 text-[#64748b] dark:text-[#a0aec0] text-sm font-medium">
+<a class="hover:text-primary transition-colors" href="#">Election Dashboard</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary">Presidential Candidates</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b border-gray-200 dark:border-gray-800 pb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-[#111418] dark:text-white text-4xl font-black leading-tight tracking-tight">Student Council President</h1>
+<p class="text-[#64748b] dark:text-[#a0aec0] text-lg font-normal max-w-2xl">
+                            Review the profiles and manifestos of your peers running for president. Choose the leader who best represents your vision for our school.
+                        </p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 h-11 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[#111418] dark:text-white text-sm font-bold rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span>Voting Rules</span>
+</button>
+<button class="flex items-center gap-2 px-5 h-11 bg-primary text-white text-sm font-bold rounded-lg hover:bg-blue-600 transition-all shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">ballot</span>
+<span>Cast Vote</span>
+</button>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap items-center gap-3 mb-8">
+<span class="text-sm font-bold text-[#64748b] dark:text-[#a0aec0] mr-2">Filter by Grade:</span>
+<button class="flex h-10 items-center gap-x-2 rounded-full bg-primary text-white px-5 text-sm font-semibold">
+                        All Grades
+                    </button>
+<button class="flex h-10 items-center gap-x-2 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary px-5 text-sm font-semibold transition-colors">
+                        10th Grade
+                    </button>
+<button class="flex h-10 items-center gap-x-2 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary px-5 text-sm font-semibold transition-colors">
+                        11th Grade
+                    </button>
+<button class="flex h-10 items-center gap-x-2 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary px-5 text-sm font-semibold transition-colors">
+                        12th Grade
+                    </button>
+<div class="ml-auto flex items-center gap-2">
+<span class="text-xs text-[#64748b] dark:text-[#a0aec0]">6 candidates found</span>
+</div>
+</div>
+<!-- Candidate Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Candidate Card 1 -->
+<div class="flex flex-col bg-white dark:bg-[#1a202c] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all group">
+<div class="relative w-full aspect-[4/3] bg-gray-200 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of Alex Rivera, candidate for President" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4s8mBuucTSFmtcOdgch9nRYOWsseBbr2aJ3nBM5g2tUBZHM8OQv-DPVmw1IWvCu8hk29hNJTheaHG_pqyGlcAKqu2spVgokyDMbHEJCIX1-JGuzHdhQoswSxpXdxdnAlHcu52EcsfDORAyI0uUJ72J_Uhwc37FNHufzOjplNO-rYv6fNgC8UWVA0b789wmx43lwLFgDUDI9_nu_mf1eUqbsqXWQdD87DLjkieHPb-d9Kgc_fmZflMSLBgCiMuyyg83rSXAk3uwyk0");'></div>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">11th Grade</span>
+</div>
+</div>
+<div class="p-6">
+<div class="mb-4">
+<h3 class="text-xl font-bold text-[#111418] dark:text-white mb-1">Alex Rivera</h3>
+<p class="text-primary text-sm font-semibold italic">"A Voice for All Students"</p>
+</div>
+<p class="text-[#64748b] dark:text-[#a0aec0] text-sm leading-relaxed mb-6 line-clamp-3">
+                                Focus on transparency, mental health resources, and expanding the extracurricular budget for all clubs...
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+                                    Read Manifesto
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center text-white ring-2 ring-white dark:ring-[#1a202c]" title="Endorsed by Drama Club">
+<span class="material-symbols-outlined text-[16px]">theater_comedy</span>
+</div>
+<div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-white ring-2 ring-white dark:ring-[#1a202c]" title="Endorsed by Debate Team">
+<span class="material-symbols-outlined text-[16px]">forum</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Candidate Card 2 -->
+<div class="flex flex-col bg-white dark:bg-[#1a202c] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all group">
+<div class="relative w-full aspect-[4/3] bg-gray-200 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of Jordan Smith, candidate for President" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtYwhrUnzUyHlQZzc82adVuUNcIMsv4ieE3H2IPeRm_M4XgjWE9XmbA309t3nfVmlJxhakqa1nC-SdqreRvvu6v8OlQeQzhMRgN9LMAa67exO9xZgpQOpbacylbjldu8ashAGm6A8qSe7fxQgw7wB6_RRb8gpLcKPv4MQirLmXll20DWggjT_Dgfc5H-oZatP0LWnRjuClbSIrIK2mIwVNDQ45NQd1Sbn7sj9T33GxVXN3UiMyval9IdwQVmwakQzHhVetjja8Hhfs");'></div>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">12th Grade</span>
+</div>
+</div>
+<div class="p-6">
+<div class="mb-4">
+<h3 class="text-xl font-bold text-[#111418] dark:text-white mb-1">Jordan Smith</h3>
+<p class="text-primary text-sm font-semibold italic">"Building Our Future Forward"</p>
+</div>
+<p class="text-[#64748b] dark:text-[#a0aec0] text-sm leading-relaxed mb-6 line-clamp-3">
+                                Dedicated to modernizing school facilities, improving the lunch program, and strengthening school spirit through events...
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+                                    Read Manifesto
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center text-white ring-2 ring-white dark:ring-[#1a202c]" title="Endorsed by Sports Council">
+<span class="material-symbols-outlined text-[16px]">sports_basketball</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Candidate Card 3 -->
+<div class="flex flex-col bg-white dark:bg-[#1a202c] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all group">
+<div class="relative w-full aspect-[4/3] bg-gray-200 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of Taylor Wong, candidate for President" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBSJRt_uzYVwovhkjB_yvHWb4xH9h6zTlGtDry956p0uuY-PVdFcOfyUT8PCDD0pFagWa3WOHLQ0WvjWmc3IKGb88oRrZxySHgM_rVriXIpmeguGo8qG-oSUiTlxJRsk2GAwDcxIGpE1WjTwAjy4rfjh2MdlutkQkKeWtzDc1YXtfZxFeT6hERJ3Z0AiJ6MbOyHv5WXhLhKuDlkm30GDA9totDFNTX2dUwNqHuIWBRBXSchtYJY--Kg5cJTSdfFCzL10p-GRyI4x2CS");'></div>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">11th Grade</span>
+</div>
+</div>
+<div class="p-6">
+<div class="mb-4">
+<h3 class="text-xl font-bold text-[#111418] dark:text-white mb-1">Taylor Wong</h3>
+<p class="text-primary text-sm font-semibold italic">"Sustainability &amp; Action"</p>
+</div>
+<p class="text-[#64748b] dark:text-[#a0aec0] text-sm leading-relaxed mb-6 line-clamp-3">
+                                My campaign is built on three pillars: environmental sustainability, diversity advocacy, and peer mentorship programs...
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+                                    Read Manifesto
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Candidate Card 4 -->
+<div class="flex flex-col bg-white dark:bg-[#1a202c] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all group">
+<div class="relative w-full aspect-[4/3] bg-gray-200 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of Casey Johnson, candidate for President" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCj1DXd1qr7OsSfEeBpfA_fKOS0B1y8o1YKjfwYAdEfYK0E5rmgqzQvPZ9WmT-IunzZUusMIMO4DfaqgMrzeqvx8nw7GGNXLJ5-ZQCkl42awldmP8_CFMMG67YjRpRnqS47QoWtBTGqzxI3Hr3poN6I8hj71tRpENvjRs-2oHdmlh4ySjH4hrmLnLFelp9uLQN0tQLe5B1XDS0mTSUUhLGlQrPU88xx-oV85lhqGxEakjz_hFOX79uFFG2eYHfOYLnKaE1loYWAqHIt");'></div>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">10th Grade</span>
+</div>
+</div>
+<div class="p-6">
+<div class="mb-4">
+<h3 class="text-xl font-bold text-[#111418] dark:text-white mb-1">Casey Johnson</h3>
+<p class="text-primary text-sm font-semibold italic">"Innovation &amp; Inclusion"</p>
+</div>
+<p class="text-[#64748b] dark:text-[#a0aec0] text-sm leading-relaxed mb-6 line-clamp-3">
+                                We need a council that looks like the whole school. I will prioritize tech-driven feedback loops and inclusive socials...
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+                                    Read Manifesto
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full bg-purple-500 flex items-center justify-center text-white ring-2 ring-white dark:ring-[#1a202c]" title="Endorsed by Coding Club">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Candidate Card 5 -->
+<div class="flex flex-col bg-white dark:bg-[#1a202c] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all group">
+<div class="relative w-full aspect-[4/3] bg-gray-200 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of Morgan Lee, candidate for President" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsYcoAuPviOp987hD4mqKeUOFQ6b1zG55NY0HnGEtR595-19EzO3AaDDIzs3oT1rJCZJHqbMnKe2zDPZqhsqQR2LhU98o_FmcNMe-3nDPpHPLNZzKMapDdQeZee9XEvFGwfFMZ6LX517Q2O5RCit1UbVYqeWLixDRv5B0wiim2KdTjrjausjjVmk4ayDp6kUvzHx7brJcDheIX9t4KGC905Lf5T-RMkQijR4Y_f2v_cK9CJMbsQ9-qDEqnQQD4bwyKZbjOPhKDpO9C");'></div>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">12th Grade</span>
+</div>
+</div>
+<div class="p-6">
+<div class="mb-4">
+<h3 class="text-xl font-bold text-[#111418] dark:text-white mb-1">Morgan Lee</h3>
+<p class="text-primary text-sm font-semibold italic">"Unity in Diversity"</p>
+</div>
+<p class="text-[#64748b] dark:text-[#a0aec0] text-sm leading-relaxed mb-6 line-clamp-3">
+                                Strengthening the bridge between administration and the student body. Promoting cultural awareness weeks and local community service...
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+                                    Read Manifesto
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Candidate Card 6 -->
+<div class="flex flex-col bg-white dark:bg-[#1a202c] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all group">
+<div class="relative w-full aspect-[4/3] bg-gray-200 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of Riley Davis, candidate for President" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB06wZoZIrMNC97yNPpOWuIYOlsLhYyRhXe9AU3_JBFGZWqi9SE8SVTcqLNiWyYRh7xzbrK1GUpyonv5HpFpQr7Fv6XNkLyf2bJECenjM95RQL1nsJEITeuy6opMgYRgvq7zbqB32zDk5-nwE07OjwOmUzystsRI3uiTKrFk4OiPpJt9uxKt6VuMFKNOk7i71LJKMZeZqwhohbZozqPMyK0VQRIdWnyOlVBA6AYSa19ibGF3h0WbRxkx32PZt1-8eyPEiPV9LSfGaxA");'></div>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">11th Grade</span>
+</div>
+</div>
+<div class="p-6">
+<div class="mb-4">
+<h3 class="text-xl font-bold text-[#111418] dark:text-white mb-1">Riley Davis</h3>
+<p class="text-primary text-sm font-semibold italic">"Better Together"</p>
+</div>
+<p class="text-[#64748b] dark:text-[#a0aec0] text-sm leading-relaxed mb-6 line-clamp-3">
+                                My goal is to create a more vibrant school life with better after-school facilities and more transparent funding allocations...
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+                                    Read Manifesto
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More (Subtle) -->
+<div class="mt-12 flex justify-center">
+<button class="px-8 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-bold rounded-lg hover:border-primary transition-colors">
+                        Load More Candidates
+                    </button>
+</div>
+</div>
+</main>
+<footer class="bg-white dark:bg-[#1a202c] border-t border-gray-200 dark:border-gray-800 py-10 mt-auto">
+<div class="max-w-[1200px] mx-auto px-10 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">how_to_reg</span>
+<p class="text-sm font-semibold text-[#111418] dark:text-white">VoteSchool Election System</p>
+</div>
+<p class="text-xs text-[#64748b] dark:text-[#a0aec0]">
+                    © 2023 Central High School District. All student records are encrypted.
+                </p>
+<div class="flex gap-6">
+<a class="text-xs font-bold text-[#64748b] dark:text-[#a0aec0] hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="text-xs font-bold text-[#64748b] dark:text-[#a0aec0] hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+<!-- Sample Manifesto Modal (Hidden by default, used for conceptual UI layout) -->
+<div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4 hidden">
+<div class="bg-white dark:bg-background-dark w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+<div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">AR</div>
+<div>
+<h2 class="text-xl font-bold">Alex Rivera</h2>
+<p class="text-sm text-primary">Candidate Manifesto</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-gray-600 dark:hover:text-white">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-8 overflow-y-auto max-h-[70vh]">
+<h3 class="text-lg font-bold mb-4">My Vision for Central High</h3>
+<div class="prose prose-slate dark:prose-invert text-sm leading-relaxed space-y-4">
+<p>Hello everyone, I'm Alex. I believe our school council should do more than just plan dances. My three main goals are transparency, mental health, and equity.</p>
+<p><strong>Transparency:</strong> I will publish the minutes of every council meeting and create a digital suggestion box where you can see the status of your requests in real-time.</p>
+<p><strong>Mental Health:</strong> I will advocate for 'Rest Weeks' where homework loads are reduced after finals, and work with the administration to bring in more peer counseling resources.</p>
+<p><strong>Equity:</strong> I want to ensure that smaller clubs like the Art Guild and Coding Club get a fairer share of the student activities fund currently dominated by athletics.</p>
+<p>A vote for me is a vote for a council that actually listens. Let's make this year our best one yet.</p>
+</div>
+</div>
+<div class="p-6 bg-gray-50 dark:bg-gray-800/50 flex justify-end gap-3">
+<button class="px-6 py-2 bg-gray-200 dark:bg-gray-700 font-bold rounded-lg text-sm">Close</button>
+<button class="px-6 py-2 bg-primary text-white font-bold rounded-lg text-sm">Vote for Alex</button>
+</div>
+</div>
+</div>
+</body></html>
