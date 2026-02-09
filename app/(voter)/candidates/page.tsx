@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { positions, candidates, parties } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { getOpenElection } from "@/lib/db/elections";
+import { CandidateImage } from "@/components/CandidateImage";
 
 export default async function CandidatesPage() {
   const election = await getOpenElection();
@@ -68,11 +69,7 @@ async function PositionCandidates({
           >
             <div className="mb-3 flex items-center justify-between">
               {c.imageUrl ? (
-                <img
-                  src={c.imageUrl}
-                  alt={c.name}
-                  className="h-14 w-14 rounded-full object-cover border border-[#dbe0e6] dark:border-gray-600"
-                />
+                <CandidateImage src={c.imageUrl} alt={c.name} size="sm" />
               ) : (
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#f0f2f4] text-[#617289] dark:bg-[#2d394a] dark:text-[#a1b0c3]">
                   <span className="text-xl font-bold">{c.name.charAt(0)}</span>

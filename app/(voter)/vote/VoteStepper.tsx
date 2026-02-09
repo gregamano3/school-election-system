@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
 import type { Position } from "@/lib/db";
+import { CandidateImage } from "@/components/CandidateImage";
 
 type Candidate = {
   id: number;
   name: string;
   grade: string | null;
   bio: string | null;
+  imageUrl: string | null;
   party: { name: string; color: string | null } | null;
 };
 
@@ -19,6 +21,7 @@ type Selection = {
   candidateName: string;
   candidateGrade: string | null;
   partyName: string | null;
+  imageUrl: string | null;
 };
 
 export default function VoteStepper({
@@ -67,6 +70,7 @@ export default function VoteStepper({
         candidateName: candidate.name,
         candidateGrade: candidate.grade,
         partyName: candidate.party?.name ?? null,
+        imageUrl: candidate.imageUrl,
       },
     }));
     
@@ -207,16 +211,27 @@ export default function VoteStepper({
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-bold text-[#111418] dark:text-white">{sel.positionName}</h3>
-                  <p className="mt-1 text-lg font-semibold text-[#136dec]">{sel.candidateName}</p>
-                  {sel.candidateGrade && (
-                    <p className="text-sm text-[#617289] dark:text-gray-400">{sel.candidateGrade}</p>
-                  )}
-                  {sel.partyName && (
-                    <span className="mt-1 inline-block rounded-full bg-[#136dec]/20 px-2 py-0.5 text-xs font-semibold text-[#136dec]">
-                      {sel.partyName}
-                    </span>
-                  )}
+                  <div className="flex items-start gap-3">
+                    {sel.imageUrl ? (
+                      <CandidateImage src={sel.imageUrl} alt={sel.candidateName} size="md" className="flex-shrink-0" />
+                    ) : (
+                      <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-[#e8ecf1] dark:bg-[#2d394a]">
+                        <span className="material-symbols-outlined text-2xl text-[#617289] dark:text-[#a1b0c3]">person</span>
+                      </div>
+                    )}
+                    <div>
+                      <h3 className="font-bold text-[#111418] dark:text-white">{sel.positionName}</h3>
+                      <p className="mt-1 text-lg font-semibold text-[#136dec]">{sel.candidateName}</p>
+                      {sel.candidateGrade && (
+                        <p className="text-sm text-[#617289] dark:text-gray-400">{sel.candidateGrade}</p>
+                      )}
+                      {sel.partyName && (
+                        <span className="mt-1 inline-block rounded-full bg-[#136dec]/20 px-2 py-0.5 text-xs font-semibold text-[#136dec]">
+                          {sel.partyName}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -301,6 +316,13 @@ export default function VoteStepper({
                   : "border-slate-200 bg-white hover:border-[#136dec]/50 dark:border-slate-800 dark:bg-slate-900"
               }`}
             >
+              {c.imageUrl ? (
+                <CandidateImage src={c.imageUrl} alt={c.name} size="lg" className="mb-3 border-2" />
+              ) : (
+                <div className="mb-3 flex h-24 w-24 items-center justify-center rounded-full bg-[#e8ecf1] dark:bg-[#2d394a]">
+                  <span className="material-symbols-outlined text-4xl text-[#617289] dark:text-[#a1b0c3]">person</span>
+                </div>
+              )}
               <h3 className="text-xl font-bold text-[#111418] dark:text-white">{c.name}</h3>
               {c.grade && (
                 <p className="text-sm font-semibold text-[#136dec]">{c.grade}</p>

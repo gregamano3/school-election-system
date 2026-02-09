@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { CandidateImage } from "@/components/CandidateImage";
 
 type CandidateResult = {
   candidateId: number;
@@ -153,13 +154,7 @@ export default function ResultsLive({
                     <div className="flex min-w-0 flex-1 items-center gap-4">
                       <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#e8ecf1] dark:bg-[#2d394a]">
                         {c.imageUrl ? (
-                          <img
-                            src={c.imageUrl}
-                            alt=""
-                            width={56}
-                            height={56}
-                            className="h-full w-full object-cover"
-                          />
+                          <CandidateImage src={c.imageUrl} alt={c.name} size="sm" className="h-full w-full" />
                         ) : (
                           <span className="material-symbols-outlined text-3xl text-[#617289] dark:text-[#a1b0c3]">
                             person
