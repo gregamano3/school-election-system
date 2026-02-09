@@ -2,6 +2,12 @@
 
 Fullstack Next.js school election app: login (Student/Admin), CRUD for candidates, positions, parties, voters, votes (view/delete), and **public live results** via SSE.
 
+**Repository:** [github.com/gregamano3/school-election-system](https://github.com/gregamano3/school-election-system) — public and free for schools to use. If this project helps you, consider **starring the repo**.
+
+## Disclaimer
+
+This application was developed with AI assistance (prompt-engineered and built with [Cursor](https://cursor.com)). Use it **at your own risk**. The codebase follows common best practices (parameterized queries, input validation, role-based access, audit logging, secure auth), but no guarantee is made regarding fitness for a particular purpose. Review the code and run your own tests before deploying in production.
+
 ## Features
 
 - **Login** — Student Voter or Admin Staff (student ID + password). Role comes from the database only.
@@ -73,11 +79,11 @@ Fullstack Next.js school election app: login (Student/Admin), CRUD for candidate
 ## Get the project
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/school-election-system.git
+git clone https://github.com/gregamano3/school-election-system.git
 cd school-election-system
 ```
 
-Replace the URL with your fork or the actual repo URL.
+Licensing: free to use, fork, and modify; **not allowed to sell** the software. See [LICENSE.md](LICENSE.md).
 
 ## Setup (no installer)
 
