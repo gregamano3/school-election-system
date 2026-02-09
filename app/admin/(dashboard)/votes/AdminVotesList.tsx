@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useConfirmDialog } from "@/components/ConfirmDialog";
 import { showToast } from "@/components/Toast";
 
 type Vote = {
@@ -18,12 +16,10 @@ type Vote = {
 };
 
 export default function AdminVotesList({ electionId }: { electionId: number }) {
-  const router = useRouter();
   const [votes, setVotes] = useState<Vote[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPosition, setFilterPosition] = useState<string>("all");
-  const { confirm: confirmAction, Dialog: ConfirmDialog } = useConfirmDialog();
 
   const positions = Array.from(new Set(votes.map((v) => v.positionName))).sort();
 
@@ -38,22 +34,6 @@ export default function AdminVotesList({ electionId }: { electionId: number }) {
       .finally(() => setLoading(false));
   }, [electionId]);
 
-  function handleDelete(id: number) {
-    confirmAction("Delete this vote? This action will be logged.", () => {
-      fetch(`/api/admin/votes/${id}`, { method: "DELETE" })
-        .then(async (r) => {
-          const data = await r.json();
-          if (r.ok && data.data) {
-            setVotes((prev) => prev.filter((v) => v.id !== id));
-            showToast("Vote deleted", "success");
-            router.refresh();
-          } else {
-            showToast(data.error || "Failed to delete vote", "error");
-          }
-        })
-        .catch(() => showToast("Failed to delete vote", "error"));
-    });
-  }
 
   const filteredVotes = votes.filter((v) => {
     const matchesSearch = searchTerm === "" || v.userStudentId.toLowerCase().includes(searchTerm.toLowerCase()) || v.candidateName.toLowerCase().includes(searchTerm.toLowerCase());
@@ -79,7 +59,6 @@ export default function AdminVotesList({ electionId }: { electionId: number }) {
 
   return (
     <>
-      <ConfirmDialog />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#dbe0e6] bg-white p-4 dark:border-[#2d394a] dark:bg-[#1a2433]">
         <div className="flex items-center gap-4">
           <div className="text-sm">
@@ -133,7 +112,6 @@ export default function AdminVotesList({ electionId }: { electionId: number }) {
                 <th className="p-4 font-bold text-[#111418] dark:text-white">Position</th>
                 <th className="p-4 font-bold text-[#111418] dark:text-white">Candidate</th>
                 <th className="p-4 font-bold text-[#111418] dark:text-white">Voted at</th>
-                <th className="p-4 font-bold text-[#111418] dark:text-white">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -144,15 +122,6 @@ export default function AdminVotesList({ electionId }: { electionId: number }) {
                   <td className="p-4 font-medium text-[#111418] dark:text-white">{vote.candidateName}</td>
                   <td className="p-4 text-[#617289] dark:text-[#a1b0c3]">
                     {new Date(vote.createdAt).toLocaleString()}
-                  </td>
-                  <td className="p-4">
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(vote.id)}
-                      className="text-red-500 hover:underline"
-                    >
-                      Delete
-                    </button>
                   </td>
                 </tr>
               ))}
