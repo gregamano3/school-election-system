@@ -21,7 +21,7 @@ function isAllowedLogoPath(logoUrl: string | null): boolean {
 export async function GET() {
   try {
     const { logoUrl } = await getSiteSettings();
-    if (!isAllowedLogoPath(logoUrl)) {
+    if (!isAllowedLogoPath(logoUrl) || !logoUrl) {
       return new NextResponse(null, { status: 404 });
     }
     const baseDir = path.join(process.cwd(), "public", "uploads", "site");

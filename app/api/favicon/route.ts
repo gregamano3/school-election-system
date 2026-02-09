@@ -4,7 +4,7 @@ import { getFaviconBuffer } from "@/lib/site-favicon";
 export async function GET() {
   try {
     const { buffer, contentType } = await getFaviconBuffer();
-    return new NextResponse(buffer, {
+    return new NextResponse(buffer as unknown as BodyInit, {
       headers: {
         "Content-Type": contentType,
         "Cache-Control": "public, max-age=3600",
