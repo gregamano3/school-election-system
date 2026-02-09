@@ -1,22 +1,48 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { positions } from "@/lib/db";
-import { eq } from "drizzle-orm";
-import { getOpenElection } from "@/lib/db/elections";
+import { elections, positions, electionAllowedGroups, userGroups } from "@/lib/db";
+import { eq, and, inArray } from "drizzle-orm";
 import VoteStepper from "./VoteStepper";
 
-export default async function VotePage() {
+export default async function VotePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ electionId?: string }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
-  const election = await getOpenElection();
-  if (!election) {
-    return (
-      <div className="mx-auto max-w-[1200px] px-4 py-8 md:px-10">
-        <p className="text-[#617289] dark:text-gray-400">No election open for voting at this time.</p>
-      </div>
-    );
+  const userId = parseInt(session.user.id, 10);
+  const params = await searchParams;
+
+  if (!params.electionId) {
+    redirect("/election-code");
   }
+
+  const electionId = parseInt(params.electionId, 10);
+  const [election] = await db.select().from(elections).where(eq(elections.id, electionId)).limit(1);
+
+  if (!election) {
+    redirect("/election-code");
+  }
+
+  const allowed = await db
+    .select({ groupId: electionAllowedGroups.groupId })
+    .from(electionAllowedGroups)
+    .where(eq(electionAllowedGroups.electionId, election.id));
+  
+  if (allowed.length > 0) {
+    const groupIds = allowed.map((r) => r.groupId);
+    const inGroup = await db
+      .select({ userId: userGroups.userId })
+      .from(userGroups)
+      .where(and(eq(userGroups.userId, userId), inArray(userGroups.groupId, groupIds)))
+      .limit(1);
+    if (inGroup.length === 0) {
+      redirect("/election-code");
+    }
+  }
+
   const positionsList = await db
     .select()
     .from(positions)

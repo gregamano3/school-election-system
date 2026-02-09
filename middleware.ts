@@ -8,10 +8,10 @@ export default auth((req) => {
   if (session) {
     const role = (session.user as { role?: string })?.role;
     if (pathname === "/login") {
-      return Response.redirect(new URL(role === "admin" ? "/admin" : "/dashboard", req.url));
+      return Response.redirect(new URL(role === "admin" ? "/admin" : "/election-code", req.url));
     }
     if (pathname === "/") {
-      return Response.redirect(new URL(role === "admin" ? "/admin" : "/dashboard", req.url));
+      return Response.redirect(new URL(role === "admin" ? "/admin" : "/election-code", req.url));
     }
   }
 

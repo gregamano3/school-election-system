@@ -30,6 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             image: null,
             role: user.role,
             studentId: user.studentId,
+            passwordChanged: user.passwordChanged ?? 0,
           };
         } catch (err) {
           console.error("[auth] authorize error:", err);
@@ -44,6 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.role = (user as { role?: string }).role;
         token.studentId = (user as { studentId?: string }).studentId;
+        token.passwordChanged = (user as { passwordChanged?: number }).passwordChanged ?? 0;
       }
       return token;
     },
@@ -52,13 +54,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         (session.user as { id?: string }).id = token.id as string;
         (session.user as { role?: string }).role = token.role as string;
         (session.user as { studentId?: string }).studentId = token.studentId as string;
+        (session.user as { passwordChanged?: number }).passwordChanged = (token.passwordChanged as number) ?? 0;
       }
       return session;
     },
     authorized({ request, auth: session }) {
       const { pathname } = request.nextUrl;
       const publicPaths = ["/login", "/results"];
-      const apiPublicPrefixes = ["/api/auth", "/api/elections", "/api/positions", "/api/candidates", "/api/parties", "/api/results", "/api/results-sse"];
+      const apiPublicPrefixes = ["/api/auth", "/api/elections", "/api/positions", "/api/candidates", "/api/parties", "/api/results", "/api/results-sse", "/api/site-logo", "/api/favicon"];
       if (pathname.startsWith("/api/")) {
         if (apiPublicPrefixes.some((p) => pathname.startsWith(p))) return true;
         if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -69,7 +72,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       if (publicPaths.includes(pathname) || pathname === "/" || pathname.startsWith("/_next") || pathname.startsWith("/favicon")) return true;
       if (!session) return NextResponse.redirect(new URL("/login", request.url));
-      if (pathname.startsWith("/admin") && (session.user as { role?: string })?.role !== "admin") return NextResponse.redirect(new URL("/dashboard", request.url));
+      if (pathname.startsWith("/admin") && (session.user as { role?: string })?.role !== "admin") return NextResponse.redirect(new URL("/election-code", request.url));
       return true;
     },
   },
@@ -89,8 +92,9 @@ declare module "next-auth" {
   interface User {
     role?: string;
     studentId?: string;
+    passwordChanged?: number;
   }
   interface Session {
-    user: User & { id?: string; role?: string; studentId?: string };
+    user: User & { id?: string; role?: string; studentId?: string; passwordChanged?: number };
   }
 }

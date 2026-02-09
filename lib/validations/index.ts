@@ -48,3 +48,15 @@ export const electionBodySchema = z.object({
   endDate: z.string().datetime(),
   isActive: z.number().int().min(0).max(1).default(1),
 });
+
+export const groupBodySchema = z.object({
+  name: z.string().min(1).max(255),
+});
+
+/** yearEnrolled: 2 digits (e.g. 24), start/end: student number part → student_id = "24-2000" … "24-5000" */
+export const bulkRangeBodySchema = z.object({
+  yearEnrolled: z.number().int().min(0).max(99),
+  startNumber: z.number().int().min(0),
+  endNumber: z.number().int().min(0),
+  groupId: z.number().int().positive(),
+}).refine((d) => d.startNumber <= d.endNumber, { message: "startNumber must be <= endNumber" });

@@ -17,7 +17,7 @@ async function migrate() {
     const pool = mysql.createPool({ uri: connectionString, connectionLimit: 1 });
     const conn = await pool.getConnection();
     try {
-      const files = ["0000_init_mysql.sql", "0002_site_settings_mysql.sql"];
+      const files = ["0000_init_mysql.sql", "0002_site_settings_mysql.sql", "0003_groups_mysql.sql", "0004_password_changed_mysql.sql"];
       for (const file of files) {
         const sqlPath = path.join(drizzleDir, file);
         if (!fs.existsSync(sqlPath)) continue;
@@ -42,7 +42,7 @@ async function migrate() {
       onnotice: () => {},
     });
     try {
-      const files = ["0000_init.sql", "0001_add_elections_code.sql", "0002_site_settings.sql"];
+      const files = ["0000_init.sql", "0001_add_elections_code.sql", "0002_site_settings.sql", "0003_groups.sql", "0004_password_changed.sql"];
       for (const file of files) {
         const sqlPath = path.join(drizzleDir, file);
         if (!fs.existsSync(sqlPath)) continue;

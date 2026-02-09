@@ -8,7 +8,7 @@ export default async function LoginPage() {
   const session = await auth();
   if (session) {
     const role = (session.user as { role?: string })?.role;
-    redirect(role === "admin" ? "/admin" : "/dashboard");
+    redirect(role === "admin" ? "/admin" : "/election-code");
   }
   const { schoolName, logoUrl } = await getSiteSettings();
   return (

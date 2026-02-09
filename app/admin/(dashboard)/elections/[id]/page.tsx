@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { elections, positions, parties } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import AdminElectionOptions from "./AdminElectionOptions";
+import AdminElectionAllowedGroups from "./AdminElectionAllowedGroups";
 import AdminElectionSetup from "./AdminElectionSetup";
 
 export default async function AdminElectionPage({ params }: { params: Promise<{ id: string }> }) {
@@ -40,6 +41,9 @@ export default async function AdminElectionPage({ params }: { params: Promise<{ 
           code: election.code,
         }}
       />
+      <div className="mb-8">
+        <AdminElectionAllowedGroups electionId={id} />
+      </div>
       <AdminElectionSetup
         electionId={id}
         isActive={election.isActive}

@@ -6,6 +6,7 @@ import { showToast } from "@/components/Toast";
 import { useConfirmDialog } from "@/components/ConfirmDialog";
 
 type Voter = { id: number; studentId: string; name: string | null; role: string; createdAt: Date };
+type Group = { id: number; name: string };
 
 export default function AdminVotersList({ initialList }: { initialList: Voter[] }) {
   const router = useRouter();
@@ -17,8 +18,20 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [bulkRangeLoading, setBulkRangeLoading] = useState(false);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [yearEnrolled, setYearEnrolled] = useState<number>(24);
+  const [startNumber, setStartNumber] = useState<number>(2000);
+  const [endNumber, setEndNumber] = useState<number>(5000);
+  const [bulkGroupId, setBulkGroupId] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { confirm: confirmAction, Dialog: ConfirmDialog } = useConfirmDialog();
+
+  useEffect(() => {
+    fetch("/api/admin/groups")
+      .then((r) => r.json())
+      .then((res) => res.data && setGroups(res.data));
+  }, []);
 
   useEffect(() => {
     setList(initialList);
@@ -94,6 +107,51 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
     }
   }
 
+  async function handleBulkRange(e: React.FormEvent) {
+    e.preventDefault();
+    if (!bulkGroupId) {
+      showToast("Select a group for the new voters", "error");
+      return;
+    }
+    if (startNumber > endNumber) {
+      showToast("Start number must be less than or equal to end number", "error");
+      return;
+    }
+    setBulkRangeLoading(true);
+    try {
+      const res = await fetch("/api/admin/voters/bulk-range", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          yearEnrolled,
+          startNumber,
+          endNumber,
+          groupId: bulkGroupId,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error ?? "Bulk add failed", "error");
+        setBulkRangeLoading(false);
+        return;
+      }
+      const { created, skipped } = data.data;
+      router.refresh();
+      showToast(
+        `Created ${created} voter(s)${skipped > 0 ? `, ${skipped} skipped (already exist)` : ""}. Passwords are random 8 characters.`,
+        "success"
+      );
+      if (created > 0) {
+        const listRes = await fetch("/api/admin/voters");
+        const listData = await listRes.json();
+        if (listData.data) setList(listData.data);
+      }
+    } catch {
+      showToast("Bulk add failed", "error");
+    }
+    setBulkRangeLoading(false);
+  }
+
   function handleDelete(id: number) {
     confirmAction("Delete this voter?", () => {
       fetch(`/api/admin/voters/${id}`, { method: "DELETE" })
@@ -137,6 +195,72 @@ export default function AdminVotersList({ initialList }: { initialList: Voter[] 
           Template columns: student_id, password, name (optional), role (voter or admin)
         </span>
       </div>
+      <form
+        onSubmit={handleBulkRange}
+        className="mb-6 flex flex-wrap items-end gap-4 rounded-xl border border-[#dbe0e6] bg-[#f6f7f8] p-4 dark:border-[#2d394a] dark:bg-[#101822]"
+      >
+        <h3 className="w-full text-sm font-bold text-[#111418] dark:text-white">Bulk add by range</h3>
+        <p className="w-full text-xs text-[#617289] dark:text-[#a1b0c3]">
+          Student ID format: year (2 digits) + hyphen + number → e.g. 24-2000 … 24-5000. Each gets a random 8-character password and is added to the selected group.
+        </p>
+        <div>
+          <label className="block text-xs font-bold text-[#617289] dark:text-[#a1b0c3]">Year (2 digits)</label>
+          <input
+            type="number"
+            min={0}
+            max={99}
+            value={yearEnrolled}
+            onChange={(e) => setYearEnrolled(parseInt(e.target.value, 10) || 0)}
+            className="mt-1 w-20 rounded-lg border border-[#dbe0e6] px-3 py-2 text-sm dark:border-[#2d394a] dark:bg-[#2d394a] dark:text-white"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-[#617289] dark:text-[#a1b0c3]">Start number</label>
+          <input
+            type="number"
+            min={0}
+            value={startNumber}
+            onChange={(e) => setStartNumber(parseInt(e.target.value, 10) || 0)}
+            className="mt-1 w-28 rounded-lg border border-[#dbe0e6] px-3 py-2 text-sm dark:border-[#2d394a] dark:bg-[#2d394a] dark:text-white"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-[#617289] dark:text-[#a1b0c3]">End number</label>
+          <input
+            type="number"
+            min={0}
+            value={endNumber}
+            onChange={(e) => setEndNumber(parseInt(e.target.value, 10) || 0)}
+            className="mt-1 w-28 rounded-lg border border-[#dbe0e6] px-3 py-2 text-sm dark:border-[#2d394a] dark:bg-[#2d394a] dark:text-white"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-[#617289] dark:text-[#a1b0c3]">Assign to group</label>
+          <select
+            value={bulkGroupId || ""}
+            onChange={(e) => setBulkGroupId(parseInt(e.target.value, 10) || 0)}
+            className="mt-1 rounded-lg border border-[#dbe0e6] px-3 py-2 text-sm dark:border-[#2d394a] dark:bg-[#2d394a] dark:text-white"
+            required
+          >
+            <option value="">Select group</option>
+            {groups.map((g) => (
+              <option key={g.id} value={g.id}>
+                {g.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          type="submit"
+          disabled={bulkRangeLoading || groups.length === 0}
+          className="rounded-lg bg-[#136dec] px-4 py-2 text-sm font-bold text-white hover:bg-[#136dec]/90 disabled:opacity-50"
+        >
+          {bulkRangeLoading ? "Adding…" : "Add range"}
+        </button>
+        {groups.length === 0 && (
+          <span className="text-xs text-amber-600 dark:text-amber-400">Create a group first (Admin → Groups).</span>
+        )}
+      </form>
       <form onSubmit={handleAdd} className="mb-8 flex flex-wrap items-end gap-4 rounded-xl border border-[#dbe0e6] bg-white p-4 dark:border-[#2d394a] dark:bg-[#1a2433]">
         <div>
           <label className="block text-xs font-bold text-[#617289] dark:text-[#a1b0c3]">Student ID</label>

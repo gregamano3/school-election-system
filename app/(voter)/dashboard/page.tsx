@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { auth } from "@/auth";
-import { getOpenElection } from "@/lib/db/elections";
+import { getOpenElection, getOpenElectionForUser } from "@/lib/db/elections";
 
 export default async function DashboardPage() {
   const session = await auth();
-  const active = await getOpenElection();
+  const userId = session?.user?.id ? parseInt(session.user.id, 10) : 0;
+  const active = userId ? await getOpenElectionForUser(userId) : await getOpenElection();
 
   return (
     <div className="mx-auto max-w-[1200px] flex-1 px-4 py-8 md:px-10">

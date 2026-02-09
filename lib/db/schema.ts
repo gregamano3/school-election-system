@@ -50,6 +50,38 @@ export const candidates = pgTable("candidates", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const groups = pgTable("groups", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const userGroups = pgTable(
+  "user_groups",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    groupId: integer("group_id")
+      .notNull()
+      .references(() => groups.id, { onDelete: "cascade" }),
+  },
+  (table) => [uniqueIndex("user_groups_user_group").on(table.userId, table.groupId)]
+);
+
+export const electionAllowedGroups = pgTable(
+  "election_allowed_groups",
+  {
+    electionId: integer("election_id")
+      .notNull()
+      .references(() => elections.id, { onDelete: "cascade" }),
+    groupId: integer("group_id")
+      .notNull()
+      .references(() => groups.id, { onDelete: "cascade" }),
+  },
+  (table) => [uniqueIndex("election_allowed_groups_election_group").on(table.electionId, table.groupId)]
+);
+
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   email: varchar("email", { length: 255 }),
@@ -57,6 +89,7 @@ export const users = pgTable("users", {
   passwordHash: varchar("password_hash", { length: 255 }).notNull(),
   role: varchar("role", { length: 16 }).notNull().default("voter"),
   name: varchar("name", { length: 255 }),
+  passwordChanged: integer("password_changed").default(0).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -92,6 +125,12 @@ export const siteSettings = pgTable("site_settings", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+export type Group = typeof groups.$inferSelect;
+export type NewGroup = typeof groups.$inferInsert;
+export type UserGroup = typeof userGroups.$inferSelect;
+export type NewUserGroup = typeof userGroups.$inferInsert;
+export type ElectionAllowedGroup = typeof electionAllowedGroups.$inferSelect;
+export type NewElectionAllowedGroup = typeof electionAllowedGroups.$inferInsert;
 export type Election = typeof elections.$inferSelect;
 export type NewElection = typeof elections.$inferInsert;
 export type Position = typeof positions.$inferSelect;

@@ -4,14 +4,17 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { ToastContainer } from "@/components/Toast";
 import { getSiteSettings } from "@/lib/site-settings";
 import AdminSidebar from "./AdminSidebar";
+import ChangePasswordDialog from "./ChangePasswordDialog";
 
 export default async function AdminDashboardLayout({
   children,
 }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session) redirect("/login");
-  if ((session.user as { role?: string })?.role !== "admin") redirect("/dashboard");
+  if ((session.user as { role?: string })?.role !== "admin") redirect("/election-code");
   const { logoUrl } = await getSiteSettings();
+  const userId = session.user?.id ? parseInt(session.user.id, 10) : 0;
+  const passwordChanged = (session.user as { passwordChanged?: number })?.passwordChanged ?? 1;
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f6f7f8] dark:bg-[#101822]">
@@ -36,6 +39,7 @@ export default async function AdminDashboardLayout({
         <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
       <ToastContainer />
+      {passwordChanged === 0 && userId > 0 && <ChangePasswordDialog userId={userId} />}
     </div>
   );
 }

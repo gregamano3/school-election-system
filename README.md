@@ -11,8 +11,10 @@ This application was developed with AI assistance (prompt-engineered and built w
 ## Features
 
 - **Login** — Student Voter or Admin Staff (student ID + password). Role comes from the database only.
-- **Admin** — Full CRUD: elections, positions, parties, candidates (with photo upload), voters (incl. CSV bulk), votes audit, audit log. End/reactivate election (no delete). Print results to PDF from election page.
-- **Voter** — Dashboard, candidates, positions, vote (one per position per election), view results.
+- **Admin** — Full CRUD: elections, positions, parties, candidates (with photo upload), voters (incl. CSV bulk and range-based bulk), groups, votes audit, audit log. End/reactivate election (no delete). Print results to PDF from election page. **Password change required on first login** (for seeded default passwords).
+- **Voter** — Simplified flow: login → enter election code → view candidates → vote. No dashboard or navigation; just the election.
+- **Groups** — Create voter groups and assign voters. Restrict elections to specific groups (or allow all if none selected).
+- **Bulk voter creation** — CSV upload or in-app range-based creation (e.g., year 24, range 2000-5000 → creates 24-2000 through 24-5000 with random passwords).
 - **Results** — Public page at `/results` with live updates (SSE). Election selector; Print/PDF only from admin election page.
 - **Voting rules** — One vote per position per election. Once a voter has voted for a position in an election, they cannot vote again for that position in that election; they can vote in other elections and for other positions.
 
@@ -30,7 +32,7 @@ This application was developed with AI assistance (prompt-engineered and built w
 
 ## Architecture
 
-- **App Router** — Routes under `app/`: `(voter)` (dashboard, positions, candidates, vote), `(dashboard)` (admin), `login`, `results`, `api/`.
+- **App Router** — Routes under `app/`: `(voter)` (election code entry, vote), `(dashboard)` (admin), `login`, `results`, `api/`.
 - **Server-first** — Pages are Server Components by default; data fetched in async page/layout. Client Components (`"use client"`) only where needed (forms, toasts, dialogs, live results).
 - **API routes** — Under `app/api/`: auth (`/api/auth/[...nextauth]`), public read-only (`/api/elections`, `/api/positions`, `/api/candidates`, `/api/parties`, `/api/results`, `/api/results-sse`), protected write (`/api/votes` for voters, `/api/admin/*` for admins). Installer removed; setup is env + manual DB.
 - **Database** — Single DB (PostgreSQL or MySQL). Drizzle for type-safe queries; schema in `lib/db/schema.ts` (Postgres) and `lib/db/schema-mysql.ts` (MySQL). Migrations in `drizzle/*.sql`; `db:migrate` runs them.
@@ -41,6 +43,8 @@ This application was developed with AI assistance (prompt-engineered and built w
 ## Login, sessions, and token expiry
 
 - **How login works** — User submits ID Number and password on `/login`. NextAuth Credentials provider looks up the user in the DB, verifies password with bcrypt, and creates a session. No separate “token” API; the session is the auth mechanism.
+  - **Voters** — After login, redirected to `/election-code` to enter an election code, then proceed to vote.
+  - **Admins** — After login, redirected to `/admin`. If using a default password (from seeder), a password change dialog appears on first login.
 - **Sessions** — Stored as **JWT** (strategy: `jwt`). The JWT is signed with `AUTH_SECRET` and contains `id`, `role`, `studentId`. It is sent to the client (cookie) and validated on each request.
 - **Expiry** — Session **maxAge** is configurable via **`SESSION_MAX_AGE_SECONDS`** in `.env.local`. Default is **7200** (2 hours). After that the user must log in again. No refresh token; a new login issues a new JWT.
 - **Security** — Passwords are hashed with bcrypt (rounds 10). `AUTH_SECRET` must be set in production and kept private.
@@ -97,9 +101,9 @@ Licensing: free to use, fork, and modify; **not allowed to sell** the software. 
 
    - **PostgreSQL:**  
      `DATABASE_URL=postgresql://user:password@localhost:5432/school_election`
-   - **MySQL (e.g. XAMPP):**  
-     `DATABASE_URL=mysql://root:password@localhost:3306/school_election`  
-     (XAMPP default often: `mysql://root@localhost:3306/school_election`.)
+   - **MySQL:**  
+     `DATABASE_URL=mysql://user:password@localhost:3306/school_election`  
+     (Use any MySQL 8+ server — local, cloud, or a stack that includes MySQL.)
 
    Also set:
 
@@ -110,7 +114,7 @@ Licensing: free to use, fork, and modify; **not allowed to sell** the software. 
 
    - Create an empty database (e.g. `school_election`).
    - **PostgreSQL:** run `drizzle/0000_init.sql` or `npm run db:migrate`.
-   - **MySQL:** run `drizzle/0000_init_mysql.sql` (e.g. in phpMyAdmin or `mysql ... < drizzle/0000_init_mysql.sql`), or `npm run db:migrate`.
+   - **MySQL:** run the migration SQL files in order, or use `npm run db:migrate` (uses `DATABASE_URL` from `.env.local`).
 
 4. **Install and run**
 
@@ -121,7 +125,8 @@ Licensing: free to use, fork, and modify; **not allowed to sell** the software. 
 
    Open [http://localhost:3000](http://localhost:3000).
 
-5. **Optional:** seed demo data: `npm run db:seed` — admin `admin1` / `admin123`, voter `10001` / `voter123`.
+5. **Optional:** seed demo data: `npm run db:seed` — admin `admin1` / `admin123`, voter `10001` / `voter123`.  
+   **Note:** Admin will be prompted to change password on first login (default passwords are insecure).
 
 ## Production build
 
@@ -130,29 +135,29 @@ npm run build
 npm run start
 ```
 
-The app runs on Node.js. For XAMPP: use XAMPP for **MySQL only**; run the app with Node (`npm run build` then `npm run start`).
+The app runs on Node.js. You need a **database** (PostgreSQL or MySQL); the app itself runs with Node (`npm run build` then `npm run start`).
 
-## Run on XAMPP (MySQL)
+## Run with MySQL
+
+You need a MySQL 8+ server (local or cloud). The app runs with Node, not inside XAMPP or Apache.
 
 1. Clone the project and `cd` into it.
-2. Start **XAMPP** and start **MySQL**.
-3. Create database `school_election` (e.g. in phpMyAdmin), then run the schema:
-   - In phpMyAdmin: **Import** → `drizzle/0000_init_mysql.sql` → Go.
-   - Or: `C:\xampp\mysql\bin\mysql -u root -p school_election < drizzle/0000_init_mysql.sql`
-4. Copy `.env.example` to `.env.local` and set:
-   - `DATABASE_URL=mysql://root@localhost:3306/school_election` (or with password)
+2. Create database `school_election` (e.g. with MySQL client or phpMyAdmin).
+3. Copy `.env.example` to `.env.local` and set:
+   - `DATABASE_URL=mysql://user:password@localhost:3306/school_election`
    - `AUTH_SECRET` and `NEXTAUTH_URL`
-5. Run:
+4. Run migrations and start the app:
 
    ```bash
    npm install
-   npm run build
-   npm run start
+   npm run db:migrate
+   npm run dev
    ```
 
-   Open [http://localhost:3000](http://localhost:3000). XAMPP is used only for MySQL.
+   Or for production: `npm run build` then `npm run start`.  
+   Open [http://localhost:3000](http://localhost:3000).
 
-6. Optional: `npm run db:seed` for demo users.
+5. Optional: `npm run db:seed` for demo users.
 
 ## Run with Docker
 
@@ -171,14 +176,15 @@ Same env approach; no installer.
    Run `drizzle/0000_init.sql` or e.g. `docker-compose run --rm app npx drizzle-kit push`.
 
 3. **Optional seed**  
-   `docker-compose run --rm app npm run db:seed`
+   `docker-compose run --rm app npm run db:seed`  
+   **Note:** Admin will be prompted to change password on first login.
 
 To use **MySQL** in Docker, set `DATABASE_URL` to your MySQL instance and run `drizzle/0000_init_mysql.sql`.
 
 ## PostgreSQL vs MySQL
 
 - Set `DATABASE_URL` in `.env.local` to either `postgresql://...` or `mysql://...`.
-- Use the matching schema: `drizzle/0000_init.sql` (PostgreSQL) or `drizzle/0000_init_mysql.sql` (MySQL).
+- Migrations are in `drizzle/` (numbered SQL files). `npm run db:migrate` runs the correct set based on `DATABASE_URL`.
 - `npm run db:migrate`, `db:seed`, and `db:studio` use the dialect from `DATABASE_URL`.
 
 ## Scripts

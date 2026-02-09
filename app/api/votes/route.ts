@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { votes, elections, candidates, positions } from "@/lib/db";
-import { eq, and } from "drizzle-orm";
+import { votes, elections, candidates, positions, electionAllowedGroups, userGroups } from "@/lib/db";
+import { eq, and, inArray } from "drizzle-orm";
 import { voteBodySchema } from "@/lib/validations";
 
 export async function POST(req: Request) {
@@ -26,6 +26,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Election is not open for voting" }, { status: 400 });
     }
     if (!election.isActive) return NextResponse.json({ error: "Election is inactive" }, { status: 400 });
+
+    const allowedGroupIds = await db
+      .select({ groupId: electionAllowedGroups.groupId })
+      .from(electionAllowedGroups)
+      .where(eq(electionAllowedGroups.electionId, electionId));
+    if (allowedGroupIds.length > 0) {
+      const ids = allowedGroupIds.map((r) => r.groupId);
+      const inGroup = await db
+        .select({ userId: userGroups.userId })
+        .from(userGroups)
+        .where(and(eq(userGroups.userId, userId), inArray(userGroups.groupId, ids)))
+        .limit(1);
+      if (inGroup.length === 0) {
+        return NextResponse.json({ error: "You are not eligible to vote in this election" }, { status: 403 });
+      }
+    }
 
     const [candidate] = await db.select().from(candidates).where(eq(candidates.id, candidateId)).limit(1);
     if (!candidate || candidate.positionId !== positionId) {
