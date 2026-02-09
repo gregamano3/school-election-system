@@ -9,7 +9,6 @@ const navItems = [
   { href: "/admin/voters", label: "Voters", icon: "people" },
   { href: "/admin/groups", label: "Groups", icon: "group" },
   { href: "/admin/audit", label: "Audit Log", icon: "history" },
-  { href: "/admin/votes", label: "Votes", icon: "ballot" },
   { href: "/results", label: "Results", icon: "bar_chart" },
   { href: "/admin/settings", label: "Settings", icon: "settings" },
 ];
